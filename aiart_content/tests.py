@@ -13,14 +13,14 @@ class PostTests(TestCase):
     def setUp(self):
         self.t1 = time.perf_counter() # save the time when we are setting up so we can measure how long the test took
         User = get_user_model()
-        user = User.objects.create_user(email="normal@user.com", username="normaluser", password="foo")
+        user = User.objects.create_user(email="normal@user.com", username="normaluser", password="istec")  # creates a user to be used for the tests
         user.save()
 
     def test_create_1_post(self):
         User = get_user_model()
         user = User.objects.get(email="normal@user.com")
         for i in range(0,1):
-            post = Post.objects.create(title=f'title{i}',user=user)
+            Post.objects.create(title=f'title{i}',user=user)
         self.assertEqual(len(Post.objects.all()),1)
 
     def test_create_10_posts(self):
@@ -65,15 +65,15 @@ class PostTests(TestCase):
         user = User.objects.get(email="normal@user.com")
 
         # generator function for posts
-        def generatePosts():
+        def postGenerator():
             for i in range(0,1000000):
                 yield Post(title=f'title{i}',user=user)
                 
         
-        posts = generatePosts()
+        posts = postGenerator()
         Post.objects.bulk_create(posts)
         self.assertEqual(len(Post.objects.all()),1000000)
 
     def tearDown(self):
         self.t2 = time.perf_counter() # time after it finished
-        print(f'\n {str(Post.objects.all().count())} {str(round(self.t2-self.t1,2))}s') # print test time and current element count in a readable format
+        print(f'\n {str(Post.objects.all().count())} test {str(round(self.t2-self.t1,2))}s') # print test time and current element count in a readable format

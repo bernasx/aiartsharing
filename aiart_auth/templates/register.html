@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="">
+    <p class="">Register</p>
+    <hr/>
+    <form method="POST" action="{% url 'register' %}" autocomplete='off'>
+        {% csrf_token %}
+
+        <div class="">
+            <label>{{ form.username.label_tag }}</label>
+            {{ form.username.errors }}
+            {% render_field form.username class=""%}
+
+            <label>{{ form.email.label_tag }}</label>
+            {{ form.email.errors }}
+            {% render_field form.email class=""%}
+
+            <label>{{ form.password1.label_tag }}</label>
+            {{ form.password1.errors }}
+            {% render_field form.password1 class="" %}
+
+            <label>{{ form.password2.label_tag }}</label>
+            {{ form.password2.errors }}
+            {% render_field form.password2 class="" %}
+        </div>
+        
+        <button type="submit" class="">Register</button>
+    </form>
+</div>
+{% endblock content %}

@@ -1,9 +1,7 @@
-from django.shortcuts import render
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponse
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 
 
 # Create your views here.
@@ -11,6 +9,7 @@ from .forms import RegisterForm
 class Login(LoginView):
     template_name = 'login.html'
     next_page = reverse_lazy('main:index')
+    authentication_form = LoginForm
 
 class RegisterView(FormView):
     form_class = RegisterForm

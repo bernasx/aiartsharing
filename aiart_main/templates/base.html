@@ -8,16 +8,15 @@
     <title>AI Art Sharing</title>
 
     <!-- Bulma -->
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href={% static 'css/styles.css' %}/>
-
     <!-- HTMX -->
 
 </head>
 <body>
-    <div> Navbar here </div>
-    <div>
+    {% include 'partials/navbar.html' %}
+    <div class='container is-fullhd'>
         {% block content %}
         {% endblock %}
     </div>

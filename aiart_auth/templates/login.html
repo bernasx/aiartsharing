@@ -7,13 +7,31 @@
     <hr/>
     <form method="POST" action="{% url 'login' %}" autocomplete="off">
         {% csrf_token %}
-
+        {% comment%}
+        Login errors tied to authentication
+        {% endcomment%}
+        {%for error in form.non_field_errors%}
+            {{error}}
+        {%endfor%}
+    
         {% for field in form %}
-        <div class="">
-            <label>{{ field.label_tag }}</label>
-            {{ field.errors }}
-            {% render_field field class="" placeholder=field.name %}
-        </div>
+            <div class="">
+                <label>{{ field.label_tag }}</label>
+                {% comment%}
+                Special case here for the email to keep the username name in HTML but look like an email login.
+                {% endcomment%}
+                {%if field.name == 'username'%}
+                    {% render_field field class="" placeholder='email' %}
+                {%else%}
+                {% render_field field class="" placeholder=field.name %}
+                {%endif%}
+                {% comment%}
+                Login errors tied to the integrity and validation of each field
+                {% endcomment%}
+                {%for error in field.errors %}
+                    {{error}}
+                {%endfor%}
+            </div>
         {% endfor %}
         
         <button type="submit" class="">Login</button>

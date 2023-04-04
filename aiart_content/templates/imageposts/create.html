@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="">
+    <p class="">Create Post</p>
+    <hr/>
+    <form method="POST" action="{% url 'create_imagepost' %}" autocomplete='off'>
+        {% csrf_token %}
+
+         {% comment%}
+        Errors tied to form as a whole
+        {% endcomment%}
+        {%for error in form.non_field_errors%}
+            {{error}}
+        {%endfor%}
+
+        {% for field in form %}
+            <div class="">
+                <label>{{ field.label_tag }}</label>
+                {% render_field field class="" placeholder=field.name %}
+
+                {% comment%}
+                Errors tied to the integrity and validation of each field
+                {% endcomment%}
+
+                {%for error in field.errors %}
+                    {{error}}
+                {%endfor%}
+            </div>
+        {% endfor %}
+        
+        <button type="submit" class="">Post</button>
+    </form>
+</div>
+
+{% endblock content %}

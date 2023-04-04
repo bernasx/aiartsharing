@@ -1,16 +1,19 @@
 from django import forms
+from .models import ImagePost
 
-from .models import Post
 
-
-class PostCreationForm(forms.ModelForm):
-
-    class Meta:
-        model = Post
-        fields = ("title","user","publish_date")
-
-class PostChangeForm(forms.ModelForm):
+class ImagePostCreationForm(forms.ModelForm):
 
     class Meta:
-        model = Post
-        fields = ("title","publish_date")
+        model = ImagePost
+        fields = ("user","publish_date","image_url","model","model_hash",
+                  "hypernetwork","hypernetwork_hash","positive_prompt","negative_prompt",
+                  "notes","generation_details","isOnlineService","onlineService")
+
+class ImagePostChangeForm(forms.ModelForm):
+
+    class Meta:
+        model = ImagePost
+        fields = ("image_url","model","model_hash",
+                  "hypernetwork","hypernetwork_hash","positive_prompt","negative_prompt",
+                  "notes","generation_details","onlineService")

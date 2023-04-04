@@ -9,4 +9,3 @@ class Post(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=128, default='title')
     publish_date = models.DateTimeField(default=timezone.now)
-    views = models.IntegerField(default=0)

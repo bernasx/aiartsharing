@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="">
+    <p class="">Edit Profile</p>
+    <hr/>
+    <form method="POST" action="{% url 'profile_edit' %}" autocomplete='off' enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="">
+            
+            <label>{{ form.username.label_tag }}</label>
+            {{ form.username.errors }}
+            {% render_field form.username class=""%}
+
+            <label>{{ form.email.label_tag }}</label>
+            {{ form.email.errors }}
+            {% render_field form.email class=""%}
+
+            <label>{{ form.profile_picture.label_tag }}</label>
+            {{ form.profile_picture.errors }}
+            {% render_field form.profile_picture class="" %}
+        </div>
+        
+        <button type="submit" class="">Edit</button>
+    </form>
+</div>
+
+{% endblock content %}

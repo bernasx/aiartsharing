@@ -15,11 +15,11 @@
     <div id="navbar-main" class="navbar-menu">
       <div class="navbar-start">
         <a class="navbar-item" href="{% url 'main:index' %}">
-          Home
+          Search
         </a>
   
         <a class="navbar-item" >
-          Documentation
+          Posts
         </a>
   
         <div class="navbar-item has-dropdown is-hoverable">
@@ -29,10 +29,10 @@
   
           <div class="navbar-dropdown">
             <a class="navbar-item">
-              About
+              Help
             </a>
             <a class="navbar-item">
-              Jobs
+              About
             </a>
             <a class="navbar-item">
               Contact
@@ -48,7 +48,7 @@
       {%if user.is_authenticated%}
       <div class="navbar-end">
         <div class="navbar-item">
-            <a> {{user.email}} </a>
+            <a href="{% url 'profile' user.uuid %}"> {{user.email}} </a>
         </div>
         <div class="navbar-item">
           <div class="buttons">

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<img src="{{customuser.profile_picture.url}}" alt="Profile Picture" height="100" width="100"> </img>
+{{customuser.username}}
+<a class="button is-link"  href="{% url 'profile_edit' %}">
+    <strong>Edit Profile</strong>
+</a>
+<a class="button is-link"  href="{% url 'password_change' %}">
+    <strong>Change Password</strong>
+</a>
+{% endblock content %}

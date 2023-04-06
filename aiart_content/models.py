@@ -7,7 +7,7 @@ import uuid
 class Post(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    publish_date = models.DateTimeField(default=timezone.now)
+    publish_date = models.DateTimeField(default=timezone.now, editable=False)
 
 class ImagePost(Post):
     # Model Constants
@@ -15,15 +15,13 @@ class ImagePost(Post):
     NOVEL_AI = 'NAI'
     MIDJOURNEY = 'MJ'
 
-    ONLINE_SERVICES = [(DALL_E,'DALL-E 2'),(NOVEL_AI,'NOVEL AI'),(MIDJOURNEY,'Midjourney')]
+    ONLINE_SERVICES = [(DALL_E,'DALL-E 2'),(NOVEL_AI,'Novel AI'),(MIDJOURNEY,'Midjourney')]
 
 
     # Stable Diffusion Type of Generation
     image_url = models.URLField(max_length=256)
     model = models.CharField(max_length=256)
-    model_hash = models.CharField(max_length=64)
     hypernetwork = models.CharField(max_length=256, blank=True)
-    hypernetwork_hash = models.CharField(max_length=64, blank=True)
     positive_prompt = models.TextField()
     negative_prompt = models.TextField(blank=True)
     notes = models.TextField()

@@ -43,6 +43,14 @@
             </a>
           </div>
         </div>
+
+           
+        <div class="navbar-item">
+          <a class="button is-primary" href="{% url 'create_imagepost' %}">
+            <strong>Upload</strong>
+          </a>
+        </div>
+        
       </div>
   
       {%if user.is_authenticated%}

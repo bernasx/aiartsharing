@@ -1,3 +1,18 @@
+{% extends 'base.html' %}
 {% block content %}
-{{object.uuid}}
+<img src="{{object.image_url}}" alt="Profile Picture" height="100" width="100"> </img>
+<br>
+model: {{object.model}}
+<br>
+hypernetwork: {{object.hypernetwork}}
+<br>
+positive prompt: {{object.positive_prompt}}
+<br>
+negative prompt: {{object.negative_prompt}}
+<br>
+notes: {{object.notes}}
+<br>
+gen details: {{object.generation_details}}
+<br>
+onlineService: {{object.onlineService}}
 {% endblock content %}

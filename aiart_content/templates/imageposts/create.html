@@ -14,21 +14,46 @@
             {{error}}
         {%endfor%}
 
-        {% for field in form %}
-            <div class="">
-                <label>{{ field.label_tag }}</label>
-                {% render_field field class="" placeholder=field.name %}
+        <label>{{ form.isOnlineService.label_tag }}</label>
+        {{ form.isOnlineService.errors }}
+        {% render_field form.isOnlineService class="" _="on click toggle .is-hidden on .is-hidden-target"  %}
 
-                {% comment%}
-                Errors tied to the integrity and validation of each field
-                {% endcomment%}
+        <label class="is-hidden is-hidden-target">{{ form.onlineService.label_tag }}</label>
+        {{ form.onlineService.errors }}
+        {% render_field form.onlineService class="is-hidden is-hidden-target" %}
 
-                {%for error in field.errors %}
-                    {{error}}
-                {%endfor%}
-            </div>
-        {% endfor %}
+        <br>
+
+        <label>{{ form.image_url.label_tag }}</label>
+        {{ form.image_url.errors }}
+        {% render_field form.image_url class=""%}
         
+        <label class="is-hidden-target">{{ form.model.label_tag }}</label>
+        {{ form.model.errors }}
+        {% render_field form.model class="is-hidden-target"%}
+
+        <label class="is-hidden-target">{{ form.hypernetwork.label_tag }}</label>
+        {{ form.hypernetwork.errors }}
+        {% render_field form.hypernetwork class="is-hidden-target"%}
+
+        <label>{{ form.positive_prompt.label_tag }}</label>
+        {{ form.positive_prompt.errors }}
+        {% render_field form.positive_prompt class=""%}
+
+        <label class="is-hidden-target">{{ form.negative_prompt.label_tag }}</label>
+        {{ form.negative_prompt.errors }}
+        {% render_field form.negative_prompt class="is-hidden-target"%}
+
+        <label>{{ form.notes.label_tag }}</label>
+        {{ form.notes.errors }}
+        {% render_field form.notes class=""%}
+
+        <label>{{ form.generation_details.label_tag }}</label>
+        {{ form.generation_details.errors }}
+        {% render_field form.generation_details class=""%}
+
+        
+
         <button type="submit" class="">Post</button>
     </form>
 </div>

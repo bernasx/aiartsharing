@@ -27,9 +27,8 @@ def CreateImagePostView(request):
                 notes = request.POST['notes'],
                 generation_details = request.POST['generation_details']
             )
-
             checks = request.POST.getlist('isOnlineService')
-            if('isOnlineService' in checks):
+            if('on' in checks):
                 # creating an online service image
                 imagepost.onlineService = request.POST['onlineService']
                 imagepost.isOnlineService = True
@@ -42,7 +41,7 @@ def CreateImagePostView(request):
                 imagepost.negative_prompt = request.POST['negative_prompt']
 
             imagepost.save()
-            return redirect('detail',uuid=imagepost.uuid)
+            return redirect('detail_imagepost',uuid=imagepost.uuid)
         return render(request,'imageposts/create.html', context)
 
 class ListImagePostsView(ListView):

@@ -11,20 +11,20 @@ class Post(models.Model):
 
 class ImagePost(Post):
     # Model Constants
-    DALL_E = 'DALLE'
-    NOVEL_AI = 'NAI'
-    MIDJOURNEY = 'MJ'
+    DALL_E = 'DALL-E'
+    NOVEL_AI = 'Novel AI'
+    MIDJOURNEY = 'Midjourney'
 
     ONLINE_SERVICES = [(DALL_E,'DALL-E 2'),(NOVEL_AI,'Novel AI'),(MIDJOURNEY,'Midjourney')]
 
 
     # Stable Diffusion Type of Generation
     image_url = models.URLField(max_length=256)
-    model = models.CharField(max_length=256)
+    model = models.CharField(max_length=256, blank=True)
     hypernetwork = models.CharField(max_length=256, blank=True)
     positive_prompt = models.TextField()
     negative_prompt = models.TextField(blank=True)
-    notes = models.TextField()
+    notes = models.TextField(blank=True)
     generation_details = models.CharField(max_length=300, blank=True)
 
     # Online Services

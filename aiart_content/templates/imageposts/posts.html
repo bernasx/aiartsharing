@@ -1,10 +1,5 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<ul>
-{% for post in object_list %}
-    <li>{{ post.user }} --- {{ post.positive_prompt }} --- {{post.uuid}}</li>
-{% empty %}
-    <li>No posts yet.</li>
-{% endfor %}
-</ul>
+{% include './partials/post_cards.html' %}
 {% endblock content %}

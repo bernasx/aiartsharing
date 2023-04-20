@@ -5,7 +5,7 @@
 <div class="">
     <p class="">Login</p>
     <hr/>
-    <form method="POST" action="{% url 'login' %}" autocomplete="off">
+    <form method="POST" action="{% url 'auth:login' %}" autocomplete="off">
         {% csrf_token %}
         {% comment%}
         Login errors tied to authentication

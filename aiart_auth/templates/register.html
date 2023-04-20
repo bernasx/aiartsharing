@@ -5,7 +5,7 @@
 <div class="">
     <p class="">Register</p>
     <hr/>
-    <form method="POST" action="{% url 'register' %}" autocomplete='off'>
+    <form method="POST" action="{% url 'auth:register' %}" autocomplete='off'>
         {% csrf_token %}
 
         <div class="">

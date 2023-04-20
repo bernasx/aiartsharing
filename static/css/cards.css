@@ -1,0 +1,17 @@
+.post-card-image{
+    object-fit:cover;
+}
+
+.post-card-prompt {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 120px;
+}
+
+.post-card-divider {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}

@@ -4,7 +4,7 @@
 <div class="">
     <p class="">Create Post</p>
     <hr/>
-    <form method="POST" action="{% url 'create_imagepost' %}" autocomplete='off'>
+    <form method="POST" action="{% url 'content:create_imagepost' %}" autocomplete='off'>
         {% csrf_token %}
 
          {% comment%}

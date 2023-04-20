@@ -41,16 +41,17 @@ def CreateImagePostView(request):
                 imagepost.negative_prompt = request.POST['negative_prompt']
 
             imagepost.save()
-            return redirect('detail_imagepost',uuid=imagepost.uuid)
+            return redirect('content:detail_imagepost',uuid=imagepost.uuid)
         return render(request,'imageposts/create.html', context)
 
 class ListImagePostsView(ListView):
     model = ImagePost
     template_name = 'imageposts/posts.html'
+    paginate_by = 24 
+    ordering = ['-publish_date']
 
 class DetailImagePostView(DetailView):
     model = ImagePost
     template_name = 'imageposts/detail.html'
-
     def get_object(self):
         return ImagePost.objects.get(uuid=self.kwargs.get('uuid'))

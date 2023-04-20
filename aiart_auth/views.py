@@ -20,7 +20,7 @@ class Login(LoginView):
 class RegisterView(FormView):
     form_class = RegisterForm
     template_name = 'register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('auth:login')
 
     def form_valid(self, form):
         form.save()  # save the user
@@ -42,7 +42,7 @@ class ProfileEditView(UpdateView):
     model = CustomUser
     template_name = 'profile/edit.html'
     form_class = EditProfileForm
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('auth:profile')
 
     def get_object(self):
         return CustomUser.objects.get(pk=self.request.user.pk)
@@ -52,7 +52,7 @@ class PasswordChange(PasswordChangeView):
     model = CustomUser
     template_name = 'profile/password.html'
     form_class = PasswordChangeForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('auth:login')
 
     def form_valid(self, form):
         form.save()

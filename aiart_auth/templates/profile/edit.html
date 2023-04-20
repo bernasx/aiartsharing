@@ -4,7 +4,7 @@
 <div class="">
     <p class="">Edit Profile</p>
     <hr/>
-    <form method="POST" action="{% url 'profile_edit' %}" autocomplete='off' enctype="multipart/form-data">
+    <form method="POST" action="{% url 'auth:profile_edit' %}" autocomplete='off' enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="">

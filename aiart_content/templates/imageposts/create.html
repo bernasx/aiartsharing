@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% load static %}
 {% block content %}
-<div class="">
-    <p class="">Create Post</p>
-    <hr/>
+    <link rel="stylesheet" href="{% static 'css/upload.css' %}" type="text/css">
     <form method="POST" action="{% url 'content:create_imagepost' %}" autocomplete='off'>
         {% csrf_token %}
 
@@ -14,48 +13,108 @@
             {{error}}
         {%endfor%}
 
-        <label>{{ form.isOnlineService.label_tag }}</label>
-        {{ form.isOnlineService.errors }}
-        {% render_field form.isOnlineService class="" _="on click toggle .is-hidden on .is-hidden-target"  %}
-
-        <label class="is-hidden is-hidden-target">{{ form.onlineService.label_tag }}</label>
-        {{ form.onlineService.errors }}
-        {% render_field form.onlineService class="is-hidden is-hidden-target" %}
-
-        <br>
-
-        <label>{{ form.image_url.label_tag }}</label>
-        {{ form.image_url.errors }}
-        {% render_field form.image_url class=""%}
+        <div class="box isOnlineServiceBox">
+            <div class="field is-horizontal">
+                <label class="label mr-4">{{ form.isOnlineService.label_tag }}</label>
+                <div class="field-body">
+                    <div class="field">
+                        {{ form.isOnlineService.errors }}
+                        <div class="control">
+                            {% render_field form.isOnlineService class="" _="on click toggle .is-hidden on .is-hidden-target"  %}
+                        </div>
+                        
+                    </div>
+                </div>       
+            </div>
+            <em><p> Select this if your image was generated in an online service like Midjourney, DALL-E 2 etc...</p></em>
+        </div>
         
-        <label class="is-hidden-target">{{ form.model.label_tag }}</label>
-        {{ form.model.errors }}
-        {% render_field form.model class="is-hidden-target"%}
 
-        <label class="is-hidden-target">{{ form.hypernetwork.label_tag }}</label>
-        {{ form.hypernetwork.errors }}
-        {% render_field form.hypernetwork class="is-hidden-target"%}
+        <div class="field">
 
-        <label>{{ form.positive_prompt.label_tag }}</label>
-        {{ form.positive_prompt.errors }}
-        {% render_field form.positive_prompt class=""%}
+            <label class="label is-hidden is-hidden-target">{{ form.onlineService.label_tag }}</label>
+            {{ form.onlineService.errors }}
+            <div class="control">
+                <div class="select is-hidden is-hidden-target">
+                    {% render_field form.onlineService class=""%}
+                </div>
+            </div>
+        </div>
 
-        <label class="is-hidden-target">{{ form.negative_prompt.label_tag }}</label>
-        {{ form.negative_prompt.errors }}
-        {% render_field form.negative_prompt class="is-hidden-target"%}
+        <div class="field">
 
-        <label>{{ form.notes.label_tag }}</label>
-        {{ form.notes.errors }}
-        {% render_field form.notes class=""%}
+            <label class="label">{{ form.image_url.label_tag }}</label>
+            {{ form.image_url.errors }}
+    
+            <div class="control">
+                {% render_field form.image_url class="input"%}
+            </div>
+        </div>
 
-        <label>{{ form.generation_details.label_tag }}</label>
-        {{ form.generation_details.errors }}
-        {% render_field form.generation_details class=""%}
 
-        
+        <div class="field is-horizontal">
+            <div class="field-body">
+
+                <div class="field">
+                    <label class="label is-hidden-target">{{ form.hypernetwork.label_tag }}</label>
+                    {{ form.hypernetwork.errors }}
+                    <div class="control">
+                        {% render_field form.hypernetwork class="input is-hidden-target"%}  
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label is-hidden-target">{{ form.model.label_tag }}</label>
+                    {{ form.model.errors }}
+                
+                    <div class="control">
+                        {% render_field form.model class="input is-hidden-target"%}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label label">{{ form.positive_prompt.label_tag }}</label>
+            {{ form.positive_prompt.errors }}
+            <div class="control">
+                {% render_field form.positive_prompt class="textarea"%}
+            </div>
+        </div>
+
+        <div class="field">
+
+
+            <label class="label is-hidden-target">{{ form.negative_prompt.label_tag }}</label>
+            {{ form.negative_prompt.errors }}
+
+            <div class="control">
+                {% render_field form.negative_prompt class="is-hidden-target textarea"%}
+            </div>
+        </div>
+
+        <div class="field">
+
+            <label class="label">{{ form.notes.label_tag }}</label>
+            {{ form.notes.errors }}
+
+            <div class="control">
+                {% render_field form.notes class="textarea"%}
+            </div>
+
+        </div>
+
+        <div class="field">
+            <label class="label">{{ form.generation_details.label_tag }}</label>
+            {{ form.generation_details.errors }}
+    
+            <div class="control">
+                {% render_field form.generation_details class="input"%}
+            </div>
+
+        </div>
 
         <button type="submit" class="">Post</button>
     </form>
-</div>
 
 {% endblock content %}

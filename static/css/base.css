@@ -1,3 +1,27 @@
 body, .navbar {
     background-color: #FAFAFA;
 }
+
+
+
+/* Override Bulma Colors */
+
+/* Leave this here until I decide whether or not to override border colors.... 
+/* Text input border color 
+.input:active, .input:focus{
+    border-color: #BD473F;
+    box-shadow: 0 0 0 0.125em rgba(189,71,63,.25);
+}
+
+.textarea:active, .textarea:focus{
+    border-color: #BD473F;
+    box-shadow: 0 0 0 0.125em rgba(189,71,63,.25);
+}
+
+*/
+
+/* Arrow in a select element */
+.select::after {
+    border-color:#BD473F !important;
+}
+

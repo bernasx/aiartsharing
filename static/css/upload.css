@@ -1,4 +1,3 @@
-
 /* Top box for "Is online service" that needs to be styled independently */
 .isOnlineServiceBox {
     width: fit-content;
@@ -19,3 +18,24 @@
 }
 
 
+/* Image preview */
+
+#image-preview-container {
+    display: none;
+    
+}
+
+#image-preview {
+    object-fit: contain;
+}
+
+/* Submit button */
+
+button.button {
+    background-color: #BD473F;
+    color: white;
+}
+
+button.button:hover {
+    color: lightgray;
+}

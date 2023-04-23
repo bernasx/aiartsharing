@@ -6,7 +6,6 @@ from django.views.generic import DetailView
 from django.urls import reverse_lazy
 from .forms import RegisterForm, LoginForm, EditProfileForm
 from .models import *
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 

@@ -6,7 +6,7 @@
     <form method="POST" action="{% url 'content:create_imagepost' %}" autocomplete='off'>
         {% csrf_token %}
 
-         {% comment%}
+        {% comment%}
         Errors tied to form as a whole
         {% endcomment%}
         {%for error in form.non_field_errors%}
@@ -28,7 +28,18 @@
             </div>
             <em><p> Select this if your image was generated in an online service like Midjourney, DALL-E 2 etc...</p></em>
         </div>
-        
+
+        <div class="field">
+            <div class="columns is-centered">
+                <div class="column is-one-third">
+                        <div class="box" id="image-preview-container">
+                            <figure class="image is-4by3">
+                                <img src="" alt="Image" id="image-preview">
+                            </figure>
+                          </div>
+                </div>
+            </div>
+        </div>
 
         <div class="field">
 
@@ -47,7 +58,7 @@
             {{ form.image_url.errors }}
     
             <div class="control">
-                {% render_field form.image_url class="input"%}
+                {% render_field form.image_url _="on change if my value is empty then hide #image-preview-container else show #image-preview-container with display:block then set #image-preview @src to my value end" class="input"%}
             </div>
         </div>
 
@@ -114,7 +125,7 @@
 
         </div>
 
-        <button type="submit" class="">Post</button>
+        <button type="submit" class="button">Post</button>
     </form>
 
 {% endblock content %}

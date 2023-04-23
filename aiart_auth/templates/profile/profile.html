@@ -3,6 +3,7 @@
 {% block content %}
 <img src="{{customuser.profile_picture.url}}" alt="Profile Picture" height="100" width="100"> </img>
 {{customuser.username}}
+
 <a class="button is-link"  href="{% url 'auth:profile_edit' %}">
     <strong>Edit Profile</strong>
 </a>

@@ -2,6 +2,9 @@ body, .navbar {
     background-color: #FAFAFA;
 }
 
+.fit-screen {
+    min-height: 100vh;
+}
 
 
 /* Override Bulma Colors */

@@ -10,15 +10,17 @@
     <!-- Bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href={% static 'css/styles.css' %}/>
-    <!-- HTMX -->
-
+    <link rel="stylesheet" href={% static 'css/base.css' %}/>
+    <!-- HTMX and HyperScript-->
+    <script src="https://unpkg.com/htmx.org@1.8.6" integrity="sha384-Bj8qm/6B+71E6FQSySofJOUjA/gq330vEqjFx9LakWybUySyI1IQHwPtbTU7bNwx" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.8"></script>
 </head>
 <body>
     {% include 'partials/navbar.html' %}
-    <div class='container is-fluid'>
+    <div class='container is-fluid p-4 fit-screen'>
         {% block content %}
         {% endblock %}
     </div>
+    {% include 'partials/footer.html' %}
 </body>
 </html>

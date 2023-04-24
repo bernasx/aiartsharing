@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'aiart_auth',
-    'aiart_main',
     'aiart_content',
+    'aiart_main',
 ]
 
 MIDDLEWARE = [

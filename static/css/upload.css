@@ -1,0 +1,41 @@
+/* Top box for "Is online service" that needs to be styled independently */
+.isOnlineServiceBox {
+    width: fit-content;
+}
+
+.isOnlineServiceBox .label {
+    margin-bottom: 0px;
+}
+
+.isOnlineServiceBox em {
+    color: #A6A6A6
+}
+
+#id_isOnlineService {
+    accent-color: #BD473F;
+    height: 24px;
+    width: 24px;
+}
+
+
+/* Image preview */
+
+#image-preview-container {
+    display: none;
+    
+}
+
+#image-preview {
+    object-fit: contain;
+}
+
+/* Submit button */
+
+button.button {
+    background-color: #BD473F;
+    color: white;
+}
+
+button.button:hover {
+    color: lightgray;
+}

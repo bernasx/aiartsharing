@@ -18,7 +18,7 @@
           Search
         </a>
   
-        <a class="navbar-item" >
+        <a href="{% url 'content:list_imagepost' %}" class="navbar-item" >
           Posts
         </a>
   
@@ -43,17 +43,25 @@
             </a>
           </div>
         </div>
+
+           
+        <div class="navbar-item">
+          <a class="button is-primary" href="{% url 'content:create_imagepost' %}">
+            <strong>Upload</strong>
+          </a>
+        </div>
+        
       </div>
   
       {%if user.is_authenticated%}
       <div class="navbar-end">
         <div class="navbar-item">
-            <a href="{% url 'profile' user.uuid %}"> {{user.email}} </a>
+            <a href="{% url 'auth:profile' user.uuid %}"> {{user.email}} </a>
         </div>
         <div class="navbar-item">
           <div class="buttons">
             
-                <a class="button is-light"  href="{% url 'logout' %}">
+                <a class="button"  href="{% url 'auth:logout' %}">
                     Log out
                 </a>
 
@@ -64,10 +72,10 @@
     <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-                <a class="button is-primary"  href="{% url 'register' %}">
+                <a class="button is-primary"  href="{% url 'auth:register' %}">
                     <strong>Sign up</strong>
                 </a>
-                <a class="button is-light"  href="{% url 'login' %}">
+                <a class="button"  href="{% url 'auth:login' %}">
                     Log in
                 </a>
           </div>

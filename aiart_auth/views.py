@@ -6,7 +6,6 @@ from django.views.generic import DetailView
 from django.urls import reverse_lazy
 from .forms import RegisterForm, LoginForm, EditProfileForm
 from .models import *
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -20,7 +19,7 @@ class Login(LoginView):
 class RegisterView(FormView):
     form_class = RegisterForm
     template_name = 'register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('auth:login')
 
     def form_valid(self, form):
         form.save()  # save the user
@@ -42,7 +41,7 @@ class ProfileEditView(UpdateView):
     model = CustomUser
     template_name = 'profile/edit.html'
     form_class = EditProfileForm
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('auth:profile')
 
     def get_object(self):
         return CustomUser.objects.get(pk=self.request.user.pk)
@@ -52,7 +51,7 @@ class PasswordChange(PasswordChangeView):
     model = CustomUser
     template_name = 'profile/password.html'
     form_class = PasswordChangeForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('auth:login')
 
     def form_valid(self, form):
         form.save()

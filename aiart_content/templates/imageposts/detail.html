@@ -61,41 +61,41 @@
 <div class="content mt-6">
 
    
-    <h1 id="detail-header" class="is-size-3 mb-2">Details </h1>
+    <h1 id="detail-header" class="is-size-3 mb-4">Details </h1>
 
     <div class="box">
-    <h3 class="is-size-5 has-text-weight-semibold ml-2">Model: </h3>
-    <p class="ml-2 ">{{object.model}} </p>
+    <h3 class="is-size-5 has-text-weight-semibold">Model: </h3>
+    <p>{{object.model}} </p>
     </div>
     
     
     {%if object.hypernetwork%}
     <div class="box">
-    <h3 class="is-size-5 has-text-weight-semibold ml-2">Hypernetwork: </h3>
-    <p class="ml-2 ">{{object.hypernetwork}} </p>
+    <h3 class="is-size-5 has-text-weight-semibold">Hypernetwork: </h3>
+    <p >{{object.hypernetwork}} </p>
     </div>
     {%endif%}
 
     <div class="box">
-    <h3 class="is-size-5 has-text-weight-semibold ml-2">Positive Prompt: </h3>
-    <p class="ml-2 ">{{object.positive_prompt}} </p>
+    <h3 class="is-size-5 has-text-weight-semibold">Positive Prompt: </h3>
+    <p>{{object.positive_prompt}} </p>
     </div>
 
     {%if object.negative_prompt%}
     <div class="box">
-    <h3 class="is-size-5 has-text-weight-semibold ml-2">Negative Prompt: </h3>
-    <p class="ml-2 ">{{object.negative_prompt}} </p>
+    <h3 class="is-size-5 has-text-weight-semibold">Negative Prompt: </h3>
+    <p>{{object.negative_prompt}} </p>
     </div>
     {%endif%}
     
     <div class="box">
-    <h3 class="is-size-5 has-text-weight-semibold ml-2">Notes: </h3>
-    <p class="ml-2 ">{{object.notes}} </p>
+    <h3 class="is-size-5 has-text-weight-semibold">Notes: </h3>
+    <p>{{object.notes}} </p>
     </div>
     {% if object.generation_details%}
     <div class="box">
-    <h3 class="is-size-5 has-text-weight-semibold ml-2">Generation Details: </h3>
-    <p class="ml-2 ">{{object.generation_details}} </p>
+    <h3 class="is-size-5 has-text-weight-semibold">Generation Details: </h3>
+    <p>{{object.generation_details}} </p>
     </div>
     {% endif %}
 </div>

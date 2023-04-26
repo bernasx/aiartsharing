@@ -17,42 +17,12 @@
         Uploaded by <a href="{% url 'auth:profile' object.user.uuid %}"> @{{object.user.username}} </a> -
         <time datetime="{{object.publish_date|date:"Y-m-d"}}">{{object.publish_date|date:"M d, Y"}}</time>
     </div>
-    <div class="block">
-        <button class="button" title="Like"> <svg xmlns="http://www.w3.org/2000/svg" 
-            viewBox="-2 -4 24 24" 
-            width="24" 
-            fill="#BD473F">
-            <path d="M3.636 7.208L10 13.572l6.364-6.364a3 3 0 1 0-4.243-4.243L10 5.086l-2.121-2.12a3 3 0 0 0-4.243 4.242zM9.293 1.55l.707.707.707-.707a5 5 0 1 1 7.071 7.071l-7.07 7.071a1 1 0 0 1-1.415 0l-7.071-7.07a5 5 0 1 1 7.07-7.071z"></path></svg> 
-        </button>
-
-        <button class="button" title="Like"> <svg xmlns="http://www.w3.org/2000/svg" 
-            viewBox="-2 -4 24 24" 
-            width="24" 
-            fill="#BD473F">
-            <path d="M9.293 1.55l.707.708.707-.707a5 5 0 1 1 7.071 7.071l-7.07 7.071a1 1 0 0 1-1.415 0L2.222 8.622a5 5 0 1 1 7.07-7.071z"></path></svg> 
-        </button>
-
-        <button class="button" title="Favorite"> <svg xmlns="http://www.w3.org/2000/svg" 
-            viewBox="-2 -2.5 24 24" 
-            width="24" 
-            fill="#FAD600">
-            <path d="M10 13.554l3.517 1.85-.672-3.917 2.846-2.774-3.932-.571L10 4.579 8.241 8.142l-3.932.571 2.846 2.774-.672 3.916L10 13.554zm0 2.26L3.827 19.06l1.179-6.875L.01 7.317l6.902-1.003L10 .06l3.087 6.254 6.902 1.003-4.995 4.868 1.18 6.875L10 15.814z"></path></svg> 
-        </button>
-
-        <button class="button" title="Favorite"> <svg xmlns="http://www.w3.org/2000/svg"
-            viewBox="-2 -2 24 24"
-            width="24"
-            fill="#FAD600">
-            <path d="M10 16.207l-6.173 3.246 1.179-6.874L.01 7.71l6.902-1.003L10 .453l3.087 6.254 6.902 1.003-4.995 4.869 1.18 6.874z"></path></svg>
-        </button>
-        
-        <button class="button" title="Report this post"> <svg xmlns="http://www.w3.org/2000/svg" 
-            viewBox="-4 -2 24 24" 
-            width="24" 
-            fill="#4B7EFF">
-            <path d="M2 1h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H2v7a1 1 0 0 1-2 0V1a1 1 0 1 1 2 0z"></path></svg>
-        </button>
+    
+    <div class="block" id="like-favorite-button-block">
+        {% include './partials/detail_like_favorite_buttons.html' %}
     </div>
+
+   
 </div>
 
 
@@ -60,7 +30,8 @@
 
 <div class="content mt-6">
 
-   
+    {{object.pk}}
+    {{object.uuid}}
     <h1 id="detail-header" class="is-size-3 mb-4">Details </h1>
 
     <div class="box">

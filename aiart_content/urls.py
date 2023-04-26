@@ -7,3 +7,11 @@ urlpatterns = [
    path('detail/<uuid:uuid>', views.DetailImagePostView.as_view(), name='detail_imagepost'),
    path('posts/',views.ListImagePostsView.as_view(), name='list_imagepost')
 ]
+
+htmx_urlpatterns = [
+   path('like_imagepost/', views.likeImagePost, name="like_imagepost"),
+   path('favorite_imagepost/', views.favoriteImagePost, name="favorite_imagepost"),
+]
+
+
+urlpatterns += htmx_urlpatterns

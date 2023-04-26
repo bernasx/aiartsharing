@@ -1,7 +1,7 @@
 <div>
-    <button class="button" title="Like" hx-post="{% url 'content:like_imagepost' %}" hx-target='#like-favorite-button-block' hx-swap='innerHTML' hx-vals='{"liked_post":"{{imagepost_uuid}}","user_liking":"{{user_liking_uuid}}"}'> 
+    <button class="button" title="Like" hx-post="{% url 'content:like_imagepost' %}" hx-target='#like-favorite-button-block' hx-swap='innerHTML' hx-vals='{"liked_post":"{{imagepost_uuid}}", "user_liking":"{{user_liking_uuid}}" , "user_did_favorite_post":"{{user_favorited_post}}"}'> 
 
-        {%if user_liked_post %}
+        {%if user_liked_post == "True" %}
         <svg xmlns="http://www.w3.org/2000/svg" 
         viewBox="-2 -4 24 24" 
         width="24" 
@@ -21,10 +21,9 @@
     </button>
     
 
-    <button class="button" title="Favorite" hx-post="{% url 'content:favorite_imagepost' %}" hx-swap='innerHTML' hx-target='#like-favorite-button-block' hx-vals='{"liked_post":"{{imagepost_uuid}}","user_liking":"{{user_liking_uuid}}"}'> 
+    <button class="button" title="Favorite" hx-post="{% url 'content:favorite_imagepost' %}" hx-swap='innerHTML' hx-target='#like-favorite-button-block' hx-vals='{"liked_post":"{{imagepost_uuid}}" , "user_liking":"{{user_liking_uuid}}" , "user_did_like_post":"{{user_liked_post}}"}'> 
 
-
-        {%if user_favorited_post %}
+        {%if user_favorited_post == "True" %}
             <svg xmlns="http://www.w3.org/2000/svg"
             viewBox="-2 -2 24 24"
             width="24"

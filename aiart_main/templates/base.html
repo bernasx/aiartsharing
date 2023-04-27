@@ -22,5 +22,13 @@
         {% endblock %}
     </div>
     {% include 'partials/footer.html' %}
+
+    <script>
+        
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+
+    </script>
 </body>
 </html>

@@ -1,0 +1,12 @@
+#detail-header {
+    color: #BD473F;
+    font-weight: 600;
+}
+
+img {
+    border-radius: 8px;
+}
+
+p {
+    word-wrap: break-word;
+}

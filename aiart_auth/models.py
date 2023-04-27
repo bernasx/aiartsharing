@@ -22,5 +22,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
+    # Likes and Favorites
+    liked_image_posts = models.ManyToManyField('aiart_content.ImagePost', related_name='liked_image_posts')
+    favorited_image_posts = models.ManyToManyField('aiart_content.ImagePost', related_name='favorited_image_posts')
+
     def __str__(self):
         return self.email

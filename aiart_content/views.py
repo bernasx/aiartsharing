@@ -5,6 +5,7 @@ from .models import ImagePost
 from django.shortcuts import render, redirect
 from aiart_auth.models import CustomUser
 from django.urls import reverse
+from django.db.models import Q
 
 # Create your views here.
 
@@ -73,9 +74,25 @@ class ListImagePostsView(ListView):
 
     def get_queryset(self):
         try: 
-            keyword = self.request.GET['keyword']
-            return ImagePost.objects.filter(positive_prompt__contains=keyword).order_by('-publish_date')
+            if (self.request.GET['search_type'] == 'simple'):
+                keyword = self.request.GET['keyword']
+                return ImagePost.objects.filter(Q(positive_prompt__icontains=keyword) | Q(generation_details__icontains=keyword) | Q(notes__icontains=keyword) | Q(model__icontains=keyword) ).order_by('-publish_date')
+            elif (self.request.GET['search_type'] == 'advanced_local'):
+                prompt = self.request.GET['prompt']
+                model = self.request.GET['model']
+                keyword = self.request.GET['keyword']
+
+                return ImagePost.objects.filter(Q(isOnlineService=False) & Q(positive_prompt__icontains=prompt) & Q(model__icontains=model) & (Q(generation_details__icontains=keyword) |Q(notes=keyword))).order_by('-publish_date')
+            elif (self.request.GET['search_type'] == 'advanced_online'):
+                prompt = self.request.GET['prompt']
+                service = self.request.GET['service']
+                print(service)
+                keyword = self.request.GET['keyword']
+                return ImagePost.objects.filter(Q(isOnlineService=True) & Q(positive_prompt__icontains=prompt) & Q(onlineService__icontains=service) & Q(notes__icontains=keyword)).order_by('-publish_date')
+            else:
+                return ImagePost.objects.all().order_by('-publish_date')
         except (KeyError):
+       
             return ImagePost.objects.all().order_by('-publish_date')   
     
 

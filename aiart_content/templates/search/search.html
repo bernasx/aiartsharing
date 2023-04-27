@@ -1,5 +1,45 @@
-<form role="search" method="POST" action="{% url 'content:search' %}" autocomplete='off'>
-  {%csrf_token%}
-  {{form}}
-  <button class="" type="submit">Search</button>
-</form>
+{%load static %}
+{%load widget_tweaks%}
+
+<link rel="stylesheet" href={% static 'css/search.css' %}/>
+<div>
+    
+    <div class="box isOnlineServiceBox">
+        <div class="field is-horizontal">
+            <label class="label mr-4">Search for online service images?</label>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input id="hide-checkbox" type="checkbox" class="" _="on click toggle .is-hidden on .is-hidden-target"> 
+                    </div>
+                    
+                </div>
+            </div>       
+        </div>
+        <em><p> Select this if your image was generated in an online service like Midjourney, DALL-E 2 etc...</p></em>
+    </div>
+
+    <div class="block">
+        <form id="simpleform" role="search" method="POST" action="{% url 'content:search' %}" autocomplete='off'>
+            {%csrf_token%}
+            {{simpleform}}
+            <button class="" type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="block is-hidden-target">
+        <form id="advanced-local-form" role="search" method="POST" action="{% url 'content:search' %}" autocomplete='off'>
+            {%csrf_token%}
+            {{advanced_local_form}}
+            <button class="" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="block is-hidden is-hidden-target">
+        <form id="advanced-online-form" role="search" method="POST" action="{% url 'content:search' %}" autocomplete='off'>
+            {%csrf_token%}
+            {{advanced_online_form}}
+            <button class="" type="submit">Search</button>
+        </form>
+    </div>
+
+</div>

@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.decorators import login_required
-from .forms import ImagePostCreationForm, SimpleSearchForm
+from .forms import ImagePostCreationForm, SimpleSearchForm, AdvancedLocalSearchForm, AdvancedOnlineServiceSearchForm
 from .models import ImagePost
 from django.shortcuts import render, redirect
 from aiart_auth.models import CustomUser
@@ -93,8 +93,18 @@ class ListImagePostsView(ListView):
                 return ImagePost.objects.all().order_by('-publish_date')
         except (KeyError):
        
-            return ImagePost.objects.all().order_by('-publish_date')   
+            return ImagePost.objects.all().order_by('-publish_date')
+        
+    def get_context_data(self, **kwargs):
     
+        context = super().get_context_data(**kwargs)
+        simpleform = SimpleSearchForm
+        advanced_local_form = AdvancedLocalSearchForm
+        advanced_online_form = AdvancedOnlineServiceSearchForm
+        context['simpleform'] = simpleform
+        context['advanced_local_form'] = advanced_local_form
+        context['advanced_online_form'] = advanced_online_form
+        return context
 
 def searchView(request):
     qdict = request.POST.copy()

@@ -1,0 +1,5 @@
+<form role="search" method="POST" action="{% url 'content:search' %}" autocomplete='off'>
+  {%csrf_token%}
+  {{form}}
+  <button class="" type="submit">Search</button>
+</form>

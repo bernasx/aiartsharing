@@ -39,3 +39,10 @@ class ImagePostChangeForm(forms.ModelForm):
             "isOnlineService": "Generated in an Online Service?",
             "onlineService": "Online Service"
         }
+
+
+class SimpleSearchForm(forms.Form):
+    keyword = forms.CharField(label="Search for anything", max_length=100, required=True)
+    search_type = forms.CharField(widget=forms.HiddenInput, initial='simple')
+
+    

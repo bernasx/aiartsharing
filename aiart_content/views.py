@@ -1,14 +1,10 @@
-from django.shortcuts import render
 from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from .forms import ImagePostCreationForm
+from .forms import ImagePostCreationForm, SimpleSearchForm
 from .models import ImagePost
-from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
-from django.utils import timezone
 from aiart_auth.models import CustomUser
+from django.urls import reverse
 
 # Create your views here.
 
@@ -45,11 +41,6 @@ def CreateImagePostView(request):
             return redirect('content:detail_imagepost',uuid=imagepost.uuid)
         return render(request,'imageposts/create.html', context)
 
-class ListImagePostsView(ListView):
-    model = ImagePost
-    template_name = 'imageposts/posts.html'
-    paginate_by = 24 
-    ordering = ['-publish_date']
 
 class DetailImagePostView(DetailView):
     model = ImagePost
@@ -64,8 +55,6 @@ class DetailImagePostView(DetailView):
         context['imagepost_uuid'] = self.kwargs.get('uuid')
         context['user_liking_uuid'] = self.request.user.uuid
 
-
-
         if self.request.user.liked_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
             # These have to be strings because that's how we get them from the client. Could make them bools but it's just one comparison when rendering the template
             # so it's probably fine.
@@ -76,6 +65,24 @@ class DetailImagePostView(DetailView):
             context['user_favorited_post'] = "True"
 
         return context
+    
+class ListImagePostsView(ListView):
+    model = ImagePost
+    template_name = 'imageposts/posts.html'
+    paginate_by = 24 
+
+    def get_queryset(self):
+        try: 
+            keyword = self.request.GET['keyword']
+            return ImagePost.objects.filter(positive_prompt__contains=keyword).order_by('-publish_date')
+        except (KeyError):
+            return ImagePost.objects.all().order_by('-publish_date')   
+    
+
+def searchView(request):
+    qdict = request.POST.copy()
+    qdict.pop('csrfmiddlewaretoken')
+    return redirect(reverse('content:list_imagepost') + '?' + qdict.urlencode())
     
 
 # HTMX Views
@@ -111,3 +118,4 @@ def favoriteImagePost(request):
     context = {'imagepost_uuid':liked_post.uuid,'user_liking_uuid':user.uuid,'user_favorited_post':user_favorited_post, 'user_liked_post':user_did_like_post}
 
     return render(request, 'imageposts/partials/detail_like_favorite_buttons.html', context=context)
+

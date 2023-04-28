@@ -15,7 +15,8 @@
 <div class="container is-centered has-text-centered">
     <div class="block">
         Uploaded by <a href="{% url 'auth:profile' object.user.uuid %}"> @{{object.user.username}} </a> -
-        <time datetime="{{object.publish_date|date:"Y-m-d"}}">{{object.publish_date|date:"M d, Y"}}</time>
+        <time datetime="{{object.publish_date|date:"Y-m-d"}}">{{object.publish_date|date:"M d, Y"}}</time> - <strong> {{likes}} </strong> {%if likes == 1%} like {%else%} likes {%endif%}
+
     </div>
     
     <div class="block" id="like-favorite-button-block">

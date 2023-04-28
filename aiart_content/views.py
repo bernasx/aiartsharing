@@ -52,9 +52,13 @@ class DetailImagePostView(DetailView):
     def get_context_data(self, **kwargs):
          # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
+        post = ImagePost.objects.get(uuid=self.kwargs.get('uuid'))
         # We have to separate these from the rest of the page so HTMX can rewrite them and preserve stuff in the template
-        context['imagepost_uuid'] = self.kwargs.get('uuid')
+        context['imagepost_uuid'] = post.uuid
         context['user_liking_uuid'] = self.request.user.uuid
+        context['likes'] = post.liked_image_posts.all().count()
+        
+       
 
         if self.request.user.liked_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
             # These have to be strings because that's how we get them from the client. Could make them bools but it's just one comparison when rendering the template

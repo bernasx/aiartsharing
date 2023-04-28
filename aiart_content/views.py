@@ -1,14 +1,11 @@
-from django.shortcuts import render
 from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from .forms import ImagePostCreationForm
+from .forms import ImagePostCreationForm, SimpleSearchForm, AdvancedLocalSearchForm, AdvancedOnlineServiceSearchForm
 from .models import ImagePost
-from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
-from django.utils import timezone
 from aiart_auth.models import CustomUser
+from django.urls import reverse
+from django.db.models import Q
 
 # Create your views here.
 
@@ -45,11 +42,6 @@ def CreateImagePostView(request):
             return redirect('content:detail_imagepost',uuid=imagepost.uuid)
         return render(request,'imageposts/create.html', context)
 
-class ListImagePostsView(ListView):
-    model = ImagePost
-    template_name = 'imageposts/posts.html'
-    paginate_by = 24 
-    ordering = ['-publish_date']
 
 class DetailImagePostView(DetailView):
     model = ImagePost
@@ -64,8 +56,6 @@ class DetailImagePostView(DetailView):
         context['imagepost_uuid'] = self.kwargs.get('uuid')
         context['user_liking_uuid'] = self.request.user.uuid
 
-
-
         if self.request.user.liked_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
             # These have to be strings because that's how we get them from the client. Could make them bools but it's just one comparison when rendering the template
             # so it's probably fine.
@@ -76,6 +66,50 @@ class DetailImagePostView(DetailView):
             context['user_favorited_post'] = "True"
 
         return context
+    
+class ListImagePostsView(ListView):
+    model = ImagePost
+    template_name = 'imageposts/posts.html'
+    paginate_by = 24 
+
+    def get_queryset(self):
+        try: 
+            if (self.request.GET['search_type'] == 'simple'):
+                keyword = self.request.GET['keyword']
+                return ImagePost.objects.filter(Q(positive_prompt__icontains=keyword) | Q(generation_details__icontains=keyword) | Q(notes__icontains=keyword) | Q(model__icontains=keyword) ).order_by('-publish_date')
+            elif (self.request.GET['search_type'] == 'advanced_local'):
+                prompt = self.request.GET['prompt']
+                model = self.request.GET['model']
+                keyword = self.request.GET['keyword']
+
+                return ImagePost.objects.filter(Q(isOnlineService=False) & Q(positive_prompt__icontains=prompt) & Q(model__icontains=model) & (Q(generation_details__icontains=keyword) |Q(notes=keyword))).order_by('-publish_date')
+            elif (self.request.GET['search_type'] == 'advanced_online'):
+                prompt = self.request.GET['prompt']
+                service = self.request.GET['service']
+                print(service)
+                keyword = self.request.GET['keyword']
+                return ImagePost.objects.filter(Q(isOnlineService=True) & Q(positive_prompt__icontains=prompt) & Q(onlineService__icontains=service) & Q(notes__icontains=keyword)).order_by('-publish_date')
+            else:
+                return ImagePost.objects.all().order_by('-publish_date')
+        except (KeyError):
+       
+            return ImagePost.objects.all().order_by('-publish_date')
+        
+    def get_context_data(self, **kwargs):
+    
+        context = super().get_context_data(**kwargs)
+        simpleform = SimpleSearchForm
+        advanced_local_form = AdvancedLocalSearchForm
+        advanced_online_form = AdvancedOnlineServiceSearchForm
+        context['simpleform'] = simpleform
+        context['advanced_local_form'] = advanced_local_form
+        context['advanced_online_form'] = advanced_online_form
+        return context
+
+def searchView(request):
+    qdict = request.POST.copy()
+    qdict.pop('csrfmiddlewaretoken')
+    return redirect(reverse('content:list_imagepost') + '?' + qdict.urlencode())
     
 
 # HTMX Views
@@ -111,3 +145,4 @@ def favoriteImagePost(request):
     context = {'imagepost_uuid':liked_post.uuid,'user_liking_uuid':user.uuid,'user_favorited_post':user_favorited_post, 'user_liked_post':user_did_like_post}
 
     return render(request, 'imageposts/partials/detail_like_favorite_buttons.html', context=context)
+

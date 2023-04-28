@@ -1,0 +1,26 @@
+#hide-checkbox {
+    accent-color: #BD473F;
+    height: 24px;
+    width: 24px;
+}
+
+.isOnlineServiceBox {
+    width: fit-content;
+}
+
+.fit-label {
+    width: fit-content;
+    flex-basis: auto;
+    flex-grow: inherit;
+    flex-shrink: inherit;
+    display: flex;
+    align-items: center;
+}
+
+hr {
+  border: none;
+  height: 2px;
+  /* Set the hr color */
+  color: #BD473F;  /* old IE */
+  background-color: #BD473F;  /* Modern Browsers */
+}

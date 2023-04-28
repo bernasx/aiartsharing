@@ -47,7 +47,7 @@ class SimpleSearchForm(forms.Form):
 
 
 class AdvancedLocalSearchForm(forms.Form):
-    prompt = forms.CharField(label="Prompt", max_length=100, required=False)
+    prompt = forms.CharField(label="Prompt / Search Term", max_length=100, required=False)
     model = forms.CharField(label="Model", max_length=100, required=False)
     keyword = forms.CharField(label="Keywords", max_length=100, required=False)
     search_type = forms.CharField(widget=forms.HiddenInput, initial='advanced_local')
@@ -59,7 +59,7 @@ class AdvancedOnlineServiceSearchForm(forms.Form):
 
     choices = [('',''),(DALL_E,'DALL-E 2'),(NOVEL_AI,'Novel AI'),(MIDJOURNEY,'Midjourney')]
 
-    prompt = forms.CharField(label="Prompt", max_length=100, required=False)
+    prompt = forms.CharField(label="Prompt / Search Term", max_length=100, required=False)
     service = forms.ChoiceField(label="Service", choices=choices, required=False)
     keyword = forms.CharField(label="Keywords", max_length=100, required=False)
     search_type = forms.CharField(widget=forms.HiddenInput, initial='advanced_online')

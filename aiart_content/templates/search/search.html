@@ -1,44 +1,170 @@
 {%load static %}
 {%load widget_tweaks%}
 
-<link rel="stylesheet" href={% static 'css/search.css' %}/>
-<div>
-    
-    <div class="box isOnlineServiceBox">
+<link rel="stylesheet" href={% static 'css/search.css' %} />
+<div class="box">
+    <div class="block">
+        <form id="simpleform" role="search" method="POST" action="{% url 'content:search' %}" autocomplete='off'>
+            {%csrf_token%}
+            {{simpleform.search_type}}
+            <div class="field is-horizontal">
+                <div class="field-label fit-label">
+                    <label class="label">{{ simpleform.keyword.label_tag }}</label>
+                </div>
+
+                <div class="field-body">
+                    <div class="field">
+                        {{ simpleform.keyword.errors }}
+                        <div class="control">
+                            {% render_field simpleform.keyword class="input" %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label fit-label">
+                    <!-- Left empty for spacing -->
+                </div>
+                <div class="field-body">
+                    <div class="field has-text-right">
+                        <div class="control">
+                            <button type="submit" class="button">Search!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <hr>
+    <!-- 
+    <div class="container has-text-centered">
+        <div class="columns is-centered">
+            <div class="column is-half">
+                
+            </div>
+        </div>
+    </div>
+    -->
+
+    <div class="block isOnlineServiceBox">
         <div class="field is-horizontal">
             <label class="label mr-4">Search for online service images?</label>
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <input id="hide-checkbox" type="checkbox" class="" _="on click toggle .is-hidden on .is-hidden-target"> 
+                        <input id="hide-checkbox" type="checkbox" class=""
+                            _="on click toggle .is-hidden on .is-hidden-target">
                     </div>
-                    
+
                 </div>
-            </div>       
+            </div>
         </div>
-        <em><p> Select this if your image was generated in an online service like Midjourney, DALL-E 2 etc...</p></em>
+        <em>
+            <p> Select this if your image was generated in an online service like Midjourney, DALL-E 2 etc...</p>
+        </em>
     </div>
 
-    <div class="block">
-        <form id="simpleform" role="search" method="POST" action="{% url 'content:search' %}" autocomplete='off'>
+    <div class="block is-hidden-target mb-0">
+        <form id="advanced-local-form" role="search" method="POST" action="{% url 'content:search' %}"
+            autocomplete='off'>
             {%csrf_token%}
-            {{simpleform}}
-            <button class="" type="submit">Search</button>
+            {{advanced_local_form.search_type}}
+
+            <div class="field">
+                <label class="label">{{ advanced_local_form.prompt.label_tag }}</label>
+                {{ advanced_local_form.prompt.errors }}
+
+                <div class="control">
+                    {% render_field advanced_local_form.prompt class="input"%}
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">{{ advanced_local_form.model.label_tag }}</label>
+                {{ advanced_local_form.model.errors }}
+
+                <div class="control">
+                    {% render_field advanced_local_form.model class="input"%}
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">{{ advanced_local_form.keyword.label_tag }}</label>
+                {{ advanced_local_form.keyword.errors }}
+
+                <div class="control">
+                    {% render_field advanced_local_form.keyword class="input"%}
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label fit-label">
+                    <!-- Left empty for spacing -->
+                </div>
+                <div class="field-body">
+                    <div class="field has-text-right">
+                        <div class="control">
+                            <button type="submit" class="button">Search!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </form>
     </div>
 
-    <div class="block is-hidden-target">
-        <form id="advanced-local-form" role="search" method="POST" action="{% url 'content:search' %}" autocomplete='off'>
-            {%csrf_token%}
-            {{advanced_local_form}}
-            <button class="" type="submit">Search</button>
-        </form>
-    </div>
     <div class="block is-hidden is-hidden-target">
-        <form id="advanced-online-form" role="search" method="POST" action="{% url 'content:search' %}" autocomplete='off'>
+        <form id="advanced-online-form" role="search" method="POST" action="{% url 'content:search' %}"
+            autocomplete='off'>
             {%csrf_token%}
-            {{advanced_online_form}}
-            <button class="" type="submit">Search</button>
+            {{advanced_online_form.search_type}}
+
+            <div class="field">
+                <label class="label">{{ advanced_online_form.prompt.label_tag }}</label>
+                {{ advanced_online_form.prompt.errors }}
+
+                <div class="control">
+                    {% render_field advanced_online_form.prompt class="input"%}
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">{{ advanced_online_form.keyword.label_tag }}</label>
+                {{ advanced_online_form.keyword.errors }}
+
+                <div class="control">
+                    {% render_field advanced_online_form.keyword class="input"%}
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">{{ advanced_online_form.service.label_tag }}</label>
+                {{ advanced_online_form.service.errors }}
+                <div class="control">
+                    <div class="select">
+                        {% render_field advanced_online_form.service class=""%}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="field is-horizontal">
+                <div class="field-label fit-label">
+                    <!-- Left empty for spacing -->
+                </div>
+                <div class="field-body">
+                    <div class="field has-text-right">
+                        <div class="control">
+                            <button type="submit" class="button">Search!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </form>
     </div>
 

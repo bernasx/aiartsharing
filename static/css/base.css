@@ -28,3 +28,28 @@ body, .navbar {
     border-color:#BD473F !important;
 }
 
+
+
+/* Social Media buttons */ 
+
+#discord-button {
+    font-weight: 500;
+    color: white;
+    background-color: #5662f6;
+}
+
+#twitter-button {
+    font-weight: 500;
+    color:white;
+    background-color: #1d9bf0;
+}
+
+#github-button {
+    font-weight: 500;
+    color:white;
+    background-color: #24292f;
+}
+
+.social-media-icon {
+    margin-right: 0px !important;
+}

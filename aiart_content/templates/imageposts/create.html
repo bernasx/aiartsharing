@@ -66,6 +66,14 @@
             <div class="field-body">
 
                 <div class="field">
+                    <label class="label is-hidden-target">{{ form.model.label_tag }}</label>
+                    {{ form.model.errors }}
+                    <div class="control">
+                        {% render_field form.model class="input is-hidden-target"%}
+                    </div>
+                </div>
+
+                <div class="field">
                     <label class="label is-hidden-target">{{ form.hypernetwork.label_tag }}</label>
                     {{ form.hypernetwork.errors }}
                     <div class="control">
@@ -73,14 +81,6 @@
                     </div>
                 </div>
 
-                <div class="field">
-                    <label class="label is-hidden-target">{{ form.model.label_tag }}</label>
-                    {{ form.model.errors }}
-                
-                    <div class="control">
-                        {% render_field form.model class="input is-hidden-target"%}
-                    </div>
-                </div>
             </div>
         </div>
 

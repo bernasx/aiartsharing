@@ -3,7 +3,6 @@ from aiart_auth.models import CustomUser
 from django.utils import timezone
 import uuid
 
-# Create your models here.
 class Post(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -30,3 +29,13 @@ class ImagePost(Post):
     # Online Services
     isOnlineService = models.BooleanField(default=False)
     onlineService = models.CharField(max_length=256, choices=ONLINE_SERVICES, blank=True)
+
+
+class Comment(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    publish_date = models.DateTimeField(default=timezone.now, editable=False)
+    content = models.TextField()
+
+class ImagePostComment(Comment):
+    imagepost = models.ForeignKey(ImagePost, on_delete=models.CASCADE)

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content">
+    <h1> How do I search images? </h1>
+    <p> You can search images by heading over to the homepage or the posts section. You can search for a term in a simple manner using the <u> Simple Search </u> or use the 
+    <u> Advanced Search </u> to filter posts down to exactly what you need.
+    </p>
+
+    <h1> Online Service and Local Generation </h1>
+    <p> By default, the website lets you upload and search for images in a way that fits locally generated images with a lot of options, like the ones generated in <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui"> Stable Diffusion's Web UI by AUTOMATIC1111.</a></p>
+    <p> While this works great, some online services like <a href="https://www.midjourney.com/home/"> Midjourney </a> are a lot simpler, 
+        and fit everything in their prompts. For this reason, those services can be searched by checking the <u> online service</u> checkbox.</p>
+
+    <h1> Search fields </h1>
+
+    <ul>
+        <li><strong> Prompt / Search Term: </strong> </li> This parameter searches prompts and is generally what you want to use to search for what you have in mind (<em>e.g: dog, car, river</em>). 
+    </ul>
+
+    <ul>
+        <li><strong> Model: </strong> </li> This parameter lets you search for a specific model. It is only used when searching for locally generated images likes ones generated in the Stable Diffusion Web UI. 
+    </ul>
+
+    <ul>
+        <li><strong> Keywords: </strong> </li> Keywords search metadata fields like <u>notes</u> and <u>generation details</u>. This is useful to look for images that use a particular sampling method or
+        any other attribute or word that would show up in those fields.
+    </ul>
+
+    <ul>
+        <li><strong> Service: </strong> </li> Lets you choose between many different online services that are used to generated AI art.
+    </ul>
+</div>
+{% endblock content %}

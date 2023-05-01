@@ -10,3 +10,12 @@ def index(request):
     totalPosts = ImagePost.objects.count()
     context = {'simpleform':simpleform, 'advanced_local_form':advanced_local_form, 'advanced_online_form': advanced_online_form, 'totalPosts':totalPosts}
     return render(request, template_name='index.html', context=context)
+
+def about(request):
+    return render(request, template_name='about.html')
+
+def help(request):
+    return render(request, template_name='help.html')
+
+def contact(request):
+    return render(request, template_name='contact.html')

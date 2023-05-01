@@ -7,7 +7,7 @@
 <div class="columns is-centered">
     <div class="column is-one-fifth">
             <figure class="image">
-                <img src="{{object.image_url}}" alt="Image" alt="Profile Picture">
+                <img id="main-image" src="{{object.image_url}}" alt="Image" alt="Profile Picture">
             </figure> 
     </div>
 </div>
@@ -55,10 +55,13 @@
     </div>
     {%endif%}
     
+    {%if object.notes%}
     <div class="box">
     <h3 class="is-size-5 has-text-weight-semibold">Notes: </h3>
     <p>{{object.notes}} </p>
     </div>
+    {%endif%}
+    
     {% if object.generation_details%}
     <div class="box">
     <h3 class="is-size-5 has-text-weight-semibold">Generation Details: </h3>
@@ -66,5 +69,8 @@
     </div>
     {% endif %}
 </div>
+
+{% include '../comments/create.html' %}
+{% include '../comments/commentlist.html' %}
 
 {% endblock content %}

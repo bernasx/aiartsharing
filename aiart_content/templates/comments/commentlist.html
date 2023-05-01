@@ -1,0 +1,25 @@
+{% load static %}
+<div id="comment-list" class="mt-6">
+    <link rel="stylesheet" href="{% static 'css/comment.css' %}" type="text/css">
+    {%for comment in comments %}
+    <article class="media box">
+        <figure class="media-left image is-48x48 ">
+            <img class="img-cover-fit is-rounded" src="{{comment.user.profile_picture.url}}">
+        </figure>
+
+        <div class="media-content">
+            <div class="content">
+                <p>
+                    <a href="{% url 'auth:profile' comment.user.uuid %}"> @{{comment.user.username}}</a> 
+                    <small><time datetime="{{comment.publish_date|date:"Y-m-dT:H:i"}}">{{comment.publish_date|date:"M d, Y - H:i e"}}</time></small>
+                    <br>
+                </p>
+                <p>
+                    {{comment.content}}
+                </p>
+            </div>
+        </div>
+
+    </article>
+    {%endfor%}
+</div>

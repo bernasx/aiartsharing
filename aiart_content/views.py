@@ -1,7 +1,7 @@
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.decorators import login_required
-from .forms import ImagePostCreationForm, SimpleSearchForm, AdvancedLocalSearchForm, AdvancedOnlineServiceSearchForm
-from .models import ImagePost
+from .forms import ImagePostCreationForm, SimpleSearchForm, AdvancedLocalSearchForm, AdvancedOnlineServiceSearchForm, CommentCreationForm
+from .models import ImagePost, ImagePostComment
 from django.shortcuts import render, redirect
 from aiart_auth.models import CustomUser
 from django.urls import reverse
@@ -40,6 +40,9 @@ def CreateImagePostView(request):
 
             imagepost.save()
             return redirect('content:detail_imagepost',uuid=imagepost.uuid)
+        else:
+            
+            return render(request,'imageposts/create.html', context)
         return render(request,'imageposts/create.html', context)
 
 
@@ -57,7 +60,6 @@ class DetailImagePostView(DetailView):
         context['imagepost_uuid'] = post.uuid
         context['user_liking_uuid'] = self.request.user.uuid
         context['likes'] = post.liked_image_posts.all().count()
-        
        
 
         if self.request.user.liked_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
@@ -69,6 +71,10 @@ class DetailImagePostView(DetailView):
         if self.request.user.favorited_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
             context['user_favorited_post'] = "True"
 
+        #comment section
+        context['comments'] = ImagePostComment.objects.filter(imagepost=post).order_by('-publish_date')
+        form = CommentCreationForm
+        context['comment_form'] = form
         return context
     
 class ListImagePostsView(ListView):
@@ -150,3 +156,13 @@ def favoriteImagePost(request):
 
     return render(request, 'imageposts/partials/detail_like_favorite_buttons.html', context=context)
 
+def postComment(request):
+    if(request.method =='POST'):
+        post = ImagePost.objects.get(uuid=request.POST.get('post_uuid'))
+        user = CustomUser.objects.get(uuid=request.POST.get('user_commenting'))
+        content = request.POST.get('content')
+        comment = ImagePostComment(user=user,imagepost=post,content=content)
+        comment.save()
+        comments = ImagePostComment.objects.filter(imagepost=post).order_by('-publish_date')
+        context = {'comments':comments, 'post_uuid':post.uuid,'user_commenting':user.uuid}
+        return render(request, 'comments/commentlist.html', context=context)

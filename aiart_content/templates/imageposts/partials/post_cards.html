@@ -19,7 +19,7 @@
                     <div class="block">
                         <time datetime="{{post.publish_date|date:"Y-m-d"}}">{{post.publish_date|date:"M d, Y"}}</time>
                         <br>
-                        <a href="{% url 'auth:profile' post.user.uuid %}"> @{{post.user.username}} </a>
+                        <a class="username-field" href="{% url 'auth:profile' post.user.uuid %}"> @{{post.user.username}} </a>
                     </div>
                 </div>
             </div>

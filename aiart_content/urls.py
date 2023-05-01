@@ -11,7 +11,8 @@ urlpatterns = [
 htmx_urlpatterns = [
    path('like_imagepost/', views.likeImagePost, name="like_imagepost"),
    path('favorite_imagepost/', views.favoriteImagePost, name="favorite_imagepost"),
-   path('search/',views.searchView, name='search')
+   path('search/',views.searchView, name='search'),
+   path('post_comment',views.postComment,name="post_comment")
 ]
 
 

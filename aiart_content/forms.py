@@ -1,6 +1,5 @@
 from django import forms
-from .models import ImagePost
-
+from .models import ImagePost, ImagePostComment
 
 class ImagePostCreationForm(forms.ModelForm):
 
@@ -21,6 +20,16 @@ class ImagePostCreationForm(forms.ModelForm):
             "onlineService": "Online Service"
         }
 
+
+    def clean(self):
+        cd = super(ImagePostCreationForm, self).clean()
+
+        onlineService = cd.get("onlineService")
+        if onlineService == "":
+            self.add_error('onlineService', forms.ValidationError('Please select a service!'))     
+        return cd
+        
+
 class ImagePostChangeForm(forms.ModelForm):
 
     class Meta:
@@ -40,6 +49,7 @@ class ImagePostChangeForm(forms.ModelForm):
             "onlineService": "Online Service"
         }
 
+#Search
 
 class SimpleSearchForm(forms.Form):
     keyword = forms.CharField(label="Search for anything", max_length=100, required=False)
@@ -63,3 +73,15 @@ class AdvancedOnlineServiceSearchForm(forms.Form):
     service = forms.ChoiceField(label="Service", choices=choices, required=False)
     keyword = forms.CharField(label="Keywords", max_length=100, required=False)
     search_type = forms.CharField(widget=forms.HiddenInput, initial='advanced_online')
+
+# Comment
+
+class CommentCreationForm(forms.ModelForm):
+
+    class Meta:
+        model = ImagePostComment
+
+        fields = ("content",)
+        labels = {
+            "content":"Comment on this image!",
+        }

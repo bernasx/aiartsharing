@@ -13,7 +13,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    username = models.CharField(max_length=40)
+    username = models.CharField(max_length=24)
     profile_picture = models.ImageField(upload_to='media/pfp/', default='media/pfp/default.png', blank=True)
     profile_picture_last_update = models.DateTimeField(default=timezone.now)
 

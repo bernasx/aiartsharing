@@ -1,0 +1,15 @@
+{%load widget_tweaks%}
+<form method="POST" hx-post="{% url 'content:post_comment' %}" autocomplete='off' hx-target='#comment-list' hx-swap='innerHTML' hx-vals='{"post_uuid":"{{imagepost_uuid}}", "user_commenting":"{{user_liking_uuid}}"}'>
+    <div class="field">
+        <label class="label label">{{ comment_form.content.label_tag }}</label>
+        {{ comment_form.content.errors }}
+        <div class="control">
+            {% render_field comment_form.content class="textarea"%}
+        </div>
+    </div>
+    <div class="field has-text-right">
+        <div class="control">
+            <button type="submit" class="button">Post Comment</button>
+        </div>
+    </div>
+</form>

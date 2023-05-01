@@ -3,10 +3,11 @@
     font-weight: 600;
 }
 
-img {
+#main-image {
     border-radius: 8px;
 }
 
 p {
-    word-wrap: break-word;
+    word-break: break-all;
 }
+

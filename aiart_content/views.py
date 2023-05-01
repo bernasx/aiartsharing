@@ -41,9 +41,7 @@ def CreateImagePostView(request):
             imagepost.save()
             return redirect('content:detail_imagepost',uuid=imagepost.uuid)
         else:
-            
             return render(request,'imageposts/create.html', context)
-        return render(request,'imageposts/create.html', context)
 
 
 class DetailImagePostView(DetailView):

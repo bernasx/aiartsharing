@@ -3,31 +3,75 @@
 
 {% block content %}
 <div class="">
-    <p class="">Register</p>
-    <hr/>
     <form method="POST" action="{% url 'auth:register' %}" autocomplete='off'>
         {% csrf_token %}
 
-        <div class="">
-            
-            <label>{{ form.username.label_tag }}</label>
-            {{ form.username.errors }}
-            {% render_field form.username class=""%}
+        <div class="field">
 
-            <label>{{ form.email.label_tag }}</label>
+            <label class="label">{{ form.email.label_tag }}</label>
             {{ form.email.errors }}
-            {% render_field form.email class=""%}
+    
+            <div class="control">
+                {% render_field form.email class="input"%}
+            </div>
 
-            <label>{{ form.password1.label_tag }}</label>
+        </div>
+
+        <div class="field">
+
+            <label class="label">{{ form.username.label_tag }}</label>
+            {{ form.username.errors }}
+    
+            <div class="control">
+                {% render_field form.username class="input"%}
+            </div>
+
+        </div>
+
+        <div class="field">
+
+            <label class="label">{{ form.password1.label_tag }}</label>
             {{ form.password1.errors }}
-            {% render_field form.password1 class="" %}
+    
+            <div class="control">
+                {% render_field form.password1 class="input"%}
+            </div>
+            
+        </div>
 
-            <label>{{ form.password2.label_tag }}</label>
+        <div class="field">
+
+            <label class="label">{{ form.password2.label_tag }}</label>
             {{ form.password2.errors }}
-            {% render_field form.password2 class="" %}
+    
+            <div class="control">
+                {% render_field form.password2 class="input"%}
+            </div>
+            
+        </div>
+
+        {% comment%}
+        Login errors tied to authentication
+        {% endcomment%}
+        {%for error in form.non_field_errors%}
+            {{error}}
+        {%endfor%}
+
+        
+        
+        <div class="field is-horizontal">
+            <div class="field-label fit-label">
+                <!-- Left empty for spacing -->
+            </div>
+            <div class="field-body">
+                <div class="field has-text-right">
+                    <div class="control">
+                        <button type="submit" class="button">Register</button>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <button type="submit" class="">Register</button>
     </form>
 </div>
 {% endblock content %}

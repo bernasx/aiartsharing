@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 from .managers import CustomUserManager
 from django.utils import timezone
+import os
 import uuid
 
 # Create your models here.
@@ -28,3 +29,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    def profilePictureFilename(self):
+        return os.path.basename(self.profile_picture.name)

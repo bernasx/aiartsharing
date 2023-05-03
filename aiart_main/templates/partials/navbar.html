@@ -1,84 +1,94 @@
 {%load static %}
 <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="{% url 'main:index' %}">
-        <img src="{% static 'aiartlogo.png' %}" width="180" height="28" alt='AI Art Sharing Logo'>
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'main:index' %}">
+      <img src="{% static 'aiartlogo.png' %}" width="180" height="28" alt='AI Art Sharing Logo'>
+    </a>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-main"
+      onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbar-main" class="navbar-menu">
+    <div class="navbar-start">
+
+      <a href="{% url 'content:list_imagepost' %}" class="navbar-item">
+        Posts
       </a>
-  
-      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-main" onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-  
-    <div id="navbar-main" class="navbar-menu">
-      <div class="navbar-start">
-  
-        <a href="{% url 'content:list_imagepost' %}" class="navbar-item" >
-          Posts
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More
         </a>
-  
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            More
-          </a>
-  
-          <div class="navbar-dropdown">
-            <a href="{% url 'main:help' %}" class="navbar-item">
-              Help
-            </a>
-            <a href="{% url 'main:about' %}" class="navbar-item">
-              About
-            </a>
-            <a href="{% url 'main:contact' %}" class="navbar-item">
-              Contact
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              Report an issue
-            </a>
-          </div>
-        </div>
 
-           
-        <div class="navbar-item">
-          <a class="button is-primary" href="{% url 'content:create_imagepost' %}">
-            <strong>Upload</strong>
+        <div class="navbar-dropdown">
+          <a href="{% url 'main:help' %}" class="navbar-item">
+            Help
+          </a>
+          <a href="{% url 'main:about' %}" class="navbar-item">
+            About
+          </a>
+          <a href="{% url 'main:contact' %}" class="navbar-item">
+            Contact
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item">
+            Report an issue
           </a>
         </div>
-        
       </div>
-  
+
       {%if user.is_authenticated%}
-      <div class="navbar-end">
-        <div class="navbar-item">
-            <a href="{% url 'auth:profile' user.uuid %}"> {{user.email}} </a>
-        </div>
-        <div class="navbar-item">
-          <div class="buttons">
-            
-                <a class="button"  href="{% url 'auth:logout' %}">
-                    Log out
-                </a>
+      <div class="navbar-item">
+        <a class="button is-primary" href="{% url 'content:create_imagepost' %}">
+          <strong>Upload</strong>
+        </a>
+      </div>
+      {%endif %}
 
-          </div>
+      {%if not user.is_authenticated%}
+      <div class="navbar-item">
+        <a class="button is-primary" href="{% url 'auth:login' %}">
+          <strong>Upload</strong>
+        </a>
+      </div>
+      {%endif %}
+
+    </div>
+
+    {%if user.is_authenticated%}
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <a href="{% url 'auth:profile' user.uuid %}"> {{user.email}} </a>
+      </div>
+      <div class="navbar-item">
+        <div class="buttons">
+
+          <a class="button" href="{% url 'auth:logout' %}">
+            Log out
+          </a>
+
         </div>
       </div>
+    </div>
     {%else%}
     <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-                <a class="button is-primary"  href="{% url 'auth:register' %}">
-                    <strong>Sign up</strong>
-                </a>
-                <a class="button"  href="{% url 'auth:login' %}">
-                    Log in
-                </a>
-          </div>
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-primary" href="{% url 'auth:register' %}">
+            <strong>Sign up</strong>
+          </a>
+          <a class="button" href="{% url 'auth:login' %}">
+            Log in
+          </a>
         </div>
       </div>
+    </div>
     {%endif%}
 
-    </div>
-  </nav>
+  </div>
+</nav>

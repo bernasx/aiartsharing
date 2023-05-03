@@ -9,6 +9,10 @@ body, .navbar {
 
 /* Override Bulma Colors */
 
+.is-primary {
+    background-color: #BD473F !important;
+}
+
 /* Leave this here until I decide whether or not to override border colors.... 
 /* Text input border color 
 .input:active, .input:focus{

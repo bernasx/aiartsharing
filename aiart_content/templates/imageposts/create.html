@@ -54,11 +54,13 @@
         <div class="field">
 
             <label class="label">{{ form.image_url.label_tag }}</label>
+
             {{ form.image_url.errors }}
     
             <div class="control">
                 {% render_field form.image_url _="on change if my value is empty then hide #image-preview-container else show #image-preview-container with display:block then set #image-preview @src to my value end" class="input"%}
             </div>
+            
         </div>
 
 
@@ -124,7 +126,18 @@
 
         </div>
 
-        <button type="submit" class="button">Post</button>
+        <div class="field is-horizontal">
+            <div class="field-label fit-label">
+                <!-- Left empty for spacing -->
+            </div>
+            <div class="field-body">
+                <div class="field has-text-right">
+                    <div class="control">
+                        <button type="submit" class="button">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 
 {% endblock content %}

@@ -1,29 +1,90 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% block content %}
-<div class="">
-    <p class="">Edit Profile</p>
-    <hr/>
-    <form method="POST" action="{% url 'auth:profile_edit' %}" autocomplete='off' enctype="multipart/form-data">
-        {% csrf_token %}
+<form method="POST" action="{% url 'auth:profile_edit' %}" autocomplete='off' enctype="multipart/form-data">
+    {% csrf_token %}
 
-        <div class="">
-            
-            <label>{{ form.username.label_tag }}</label>
-            {{ form.username.errors }}
-            {% render_field form.username class=""%}
+    <div class="field">
 
-            <label>{{ form.email.label_tag }}</label>
-            {{ form.email.errors }}
-            {% render_field form.email class=""%}
+        <label class="label">{{ form.username.label_tag }}</label>
+        {{ form.username.errors }}
 
-            <label>{{ form.profile_picture.label_tag }}</label>
-            {{ form.profile_picture.errors }}
-            {% render_field form.profile_picture class="" %}
+        <div class="control">
+            {% render_field form.username class="input"%}
         </div>
-        
-        <button type="submit" class="">Edit</button>
-    </form>
-</div>
+
+    </div>
+
+    <div class="field">
+
+        <label class="label">{{ form.email.label_tag }}</label>
+        {{ form.email.errors }}
+
+        <div class="control">
+            {% render_field form.email class="input"%}
+        </div>
+
+    </div>
+
+    <div class="field">
+
+        <label class="label">{{ form.profile_picture.label_tag }}</label>
+        {{ form.profile_picture.errors }}
+
+        <div class="control">
+
+            <div id="file-js-example" class="file has-name">
+                <label class="file-label">
+                    <input type="file" name="profile_picture" accept="image/*" class="file-input"
+                        id="id_profile_picture">
+                    <span class="file-cta">
+                        <span class="file-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="#BD473F" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-upload">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4">
+                                </path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                        </span>
+                        <span class="file-label">
+                            Choose a file…
+                        </span>
+                    </span>
+                    <span class="file-name">
+                        <a target="_blank" href="{{user.profile_picture.url}} ">{{user.profilePictureFilename}}</a>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="field is-horizontal">
+        <div class="field-label fit-label">
+            <!-- Left empty for spacing -->
+        </div>
+        <div class="field-body">
+            <div class="field has-text-right">
+                <div class="control">
+                    <button type="submit" class="button">Edit Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    const fileInput = document.querySelector('#file-js-example input[type=file]');
+    fileInput.onchange = () => {
+        if (fileInput.files.length > 0) {
+            const fileName = document.querySelector('#file-js-example .file-name');
+            fileName.textContent = fileInput.files[0].name;
+        }
+    }
+</script>
+
 
 {% endblock content %}

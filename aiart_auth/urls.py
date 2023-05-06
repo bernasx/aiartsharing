@@ -12,3 +12,9 @@ urlpatterns = [
     path('profile/edit/',views.ProfileEditView.as_view(), name="profile_edit"),
     path('profile/password/', views.PasswordChange.as_view(), name='password_change')
 ] 
+
+htmxpatterns = [
+   path('follow',views.follow,name="follow"),
+]
+
+urlpatterns += htmxpatterns

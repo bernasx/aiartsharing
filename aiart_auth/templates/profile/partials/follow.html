@@ -1,0 +1,8 @@
+<button class="button is-primary" id="follow-button" title="Follow/Unfollow" hx-post="{% url 'auth:follow' %}" hx-target='#follow-button' hx-swap='outerHTML' 
+hx-vals='"user_followed":"{{user_being_followed}}"'> 
+    {%if following_user %}
+    Unfollow
+    {%else%}
+    Follow
+    {%endif%}
+</button>

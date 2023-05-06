@@ -28,6 +28,17 @@
 
     <div class="field">
 
+        <label class="label">{{ form.bio.label_tag }}</label>
+        {{ form.bio.errors }}
+
+        <div class="control">
+            {% render_field form.bio class="textarea"%}
+        </div>
+
+    </div>
+
+    <div class="field">
+
         <label class="label">{{ form.profile_picture.label_tag }}</label>
         {{ form.profile_picture.errors }}
 

@@ -2,7 +2,7 @@ from django.views.generic import DetailView, ListView
 from django.contrib.auth.decorators import login_required
 from .forms import ImagePostCreationForm, SimpleSearchForm, AdvancedLocalSearchForm, AdvancedOnlineServiceSearchForm, CommentCreationForm
 from .models import ImagePost, ImagePostComment
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from aiart_auth.models import CustomUser
 from django.urls import reverse
 from django.db.models import Q
@@ -94,9 +94,12 @@ class ListImagePostsView(ListView):
             elif (self.request.GET['search_type'] == 'advanced_online'):
                 prompt = self.request.GET['prompt']
                 service = self.request.GET['service']
-                print(service)
                 keyword = self.request.GET['keyword']
                 return ImagePost.objects.filter(Q(isOnlineService=True) & Q(positive_prompt__icontains=prompt) & Q(onlineService__icontains=service) & Q(notes__icontains=keyword)).order_by('-publish_date')
+            elif (self.request.GET['search_type'] == 'by_user'):
+                useruuid = self.request.GET['user_searched']
+                user = CustomUser.objects.get(uuid=useruuid)
+                return ImagePost.objects.filter(user=user).order_by('-publish_date')
             else:
                 return ImagePost.objects.all().order_by('-publish_date')
         except (KeyError):
@@ -116,7 +119,10 @@ class ListImagePostsView(ListView):
 
 def searchView(request):
     qdict = request.POST.copy()
-    qdict.pop('csrfmiddlewaretoken')
+    try:
+        qdict.pop('csrfmiddlewaretoken')
+    except(KeyError):
+        return HttpResponse('Key error on csrfmiddleware')
     return redirect(reverse('content:list_imagepost') + '?' + qdict.urlencode())
     
 

@@ -1,14 +1,99 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-<img src="{{customuser.profile_picture.url}}" alt="Profile Picture" height="100" width="100"> </img>
-{{customuser.username}}
-    {%if customuser.uuid == user.uuid%}
-        <a class="button is-link"  href="{% url 'auth:profile_edit' %}">
-            <strong>Edit Profile</strong>
-        </a>
-        <a class="button is-link"  href="{% url 'auth:password_change' %}">
-            <strong>Change Password</strong>
-        </a>
-    {%endif%}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}" type="text/css">
+<div class="columns mb-0">
+
+    <div class="column is-one-fifth">
+        <figure class="image">
+            <img id="profile-picture" src="{{customuser.profile_picture.url}}" alt="Image" alt="Profile Picture">
+        </figure> 
+    </div>
+
+    <div class="column">
+        <div class="content">
+            <h1 id="username-text" class="is-size-2">{{customuser.username}}</h1>
+            {%if customuser.bio != "" %}
+                <div class="box mb-0">
+                    <h3 class="is-size-5"> Bio: </h3>
+                    <p id="bio-text" >{{customuser.bio}}</p>
+                </div>
+            {%else%}
+            <div class="box mb-0">
+                <h3 class="is-size-5"> Bio: </h3>
+                <p id="bio-text" >-- This user has not added a biography yet.</p>
+            </div>
+            {%endif%}
+
+            <div class="level mt-4">
+                <div class="level-left">
+                    <div class="level-item">
+                    </div>
+                </div>
+                <div class="level-right">
+                    {%if customuser.uuid == user.uuid%}
+                        <div class="level-item">
+                            <a class="button"  href="{% url 'auth:profile_edit' %}" title="Edit Profile">
+                                <svg xmlns="http://www.w3.org/2000/svg" 
+                                width="24" height="24" viewBox="0 0 24 24" 
+                                fill="none" stroke="#FAAB50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="level-item">
+                            <a class="button"  href="{% url 'auth:password_change' %}" title="Change Password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#BD473F" 
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2">
+                                </rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    {%endif%}
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column is-one-fifth">
+        <div class="box content">
+            <h3 class="is-size-5"> Stats: </h3>
+            <p>Uploaded images: <strong>{{post_count}}</strong></p>
+            <p>Total likes in uploaded images: <strong>{{total_likes}}</strong></p>
+        </div>
+    </div>
+
+    <div class="column">
+        <h1 class="is-size-2 mb-2">Uploaded images:</h1>
+        <div class="columns is-multiline is-mobile">
+            {%for post in user_posts%}
+                <div class="column is-2">
+                    <a href="{% url 'content:detail_imagepost' post.uuid %}">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src={{post.image_url}} alt="Image" class="post-card-image">
+                            </figure>
+                        </div>
+                    </a>
+                </div>
+            {%endfor%}
+        </div>
+        
+        <form id="simpleform" role="search" method="POST" action="{% url 'content:search' %}" autocomplete='off'>
+            {%csrf_token%}
+            <input type="hidden" name="search_type" value="by_user" id="id_search_type">
+            <input type="hidden" name="user_searched" value="{{customuser.uuid}}" id="id_search_type">
+            <button type="submit" class="button">See all posts by&nbsp;<span>@{{customuser.username}}</span> </button>       
+        </form>
+
+    </div>
+</div>    
+
+
+
+
 {% endblock content %}

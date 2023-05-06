@@ -7,9 +7,8 @@ class PostAdmin(admin.ModelAdmin):
     add_form = ImagePostCreationForm
     form = ImagePostChangeForm
     model = ImagePost
-    fieldsets=[
-        (None,{'fields':('user','publish_date')})
-        ]
+   
+    readonly_fields=('user','publish_date')
     list_display = ('user', 'publish_date')
 
 admin.site.register(ImagePost, PostAdmin)

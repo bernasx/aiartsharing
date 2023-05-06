@@ -1,0 +1,42 @@
+#profile-picture {
+    border-radius: 8px;
+}
+
+#username-text{
+    color:#BD473F;
+    border-bottom: 2px solid #BD473F;
+    padding-bottom: 4px;
+    
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+#bio-text {
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: clip;
+    color:#A6A6A6;
+}
+
+hr {
+    border: none;
+    height: 2px;
+    /* Set the hr color */
+    color: #BD473F;  /* old IE */
+    background-color: #BD473F;  /* Modern Browsers */
+}
+
+.post-card-image {
+    object-fit: cover;
+}
+
+.button > span {
+    color:#BD473F;
+}

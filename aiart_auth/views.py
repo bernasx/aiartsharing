@@ -6,9 +6,10 @@ from django.views.generic import DetailView
 from django.urls import reverse_lazy
 from .forms import RegisterForm, LoginForm, EditProfileForm
 from .models import *
+from aiart_content.models import ImagePost
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+from django.db.models import Sum, Count
 # Create your views here.
 
 class Login(LoginView):
@@ -29,6 +30,22 @@ class RegisterView(FormView):
 class ProfileView(DetailView):
     model = CustomUser
     template_name = 'profile/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            user = CustomUser.objects.get(uuid=self.kwargs.get('uuid'))
+        except(CustomUser.DoesNotExist):
+            user = CustomUser.objects.get(pk=self.request.user.pk)
+
+        post_count = ImagePost.objects.filter(user=user).count()
+        #not entirely sure how this works but it returns the total_likes of all posts of a given user
+        total_likes = ImagePost.objects.filter(user=user).aggregate(Count('liked_image_posts'))['liked_image_posts__count']
+        user_posts = ImagePost.objects.filter(user=user).order_by('-publish_date')[:18]
+        context['user_posts'] = user_posts
+        context['post_count'] = post_count
+        context['total_likes'] = total_likes
+        return context
 
     
     def get_object(self):

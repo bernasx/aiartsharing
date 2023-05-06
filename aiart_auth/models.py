@@ -17,6 +17,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=24)
     profile_picture = models.ImageField(upload_to='media/pfp/', default='media/pfp/default.png', blank=True)
     profile_picture_last_update = models.DateTimeField(default=timezone.now)
+    bio = models.TextField(max_length=250, default="")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

@@ -6,7 +6,8 @@ urlpatterns = [
    path('create/',views.CreateImagePostView, name='create_imagepost'),
    path('detail/<uuid:uuid>', views.DetailImagePostView.as_view(), name='detail_imagepost'),
    path('posts/',views.ListImagePostsView.as_view(), name='list_imagepost'),
-   path('followingfeed/',views.ListImagePostsFollowingFeed.as_view(), name='following_feed')
+   path('followingfeed/',views.ListImagePostsFollowingFeed.as_view(), name='following_feed'),
+   path('favorites/',views.ListImagePostsFavorites.as_view(), name='favorites')
 ]
 
 htmx_urlpatterns = [

@@ -30,7 +30,9 @@
     </div>
     
     <div class="block" id="like-favorite-button-block">
+        {%if object.user != user%}
         {% include './partials/detail_like_favorite_buttons.html' %}
+        {%endif%}
     </div>
 
    

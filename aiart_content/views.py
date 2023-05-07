@@ -128,6 +128,15 @@ class ListImagePostsFollowingFeed(ListView):
         following_objects = Followers.objects.filter(user_following=self.request.user)
         users = map(lambda x: x.user_being_followed, following_objects)
         return ImagePost.objects.filter(user__in=users).order_by('-publish_date')
+    
+class ListImagePostsFavorites(ListView):
+    model = ImagePost
+    template_name = 'imageposts/favorites.html'
+    paginate_by = 24 
+
+    def get_queryset(self):
+        user = self.request.user
+        return user.favorited_image_posts.order_by('-publish_date')
 
 def searchView(request):
     qdict = request.POST.copy()

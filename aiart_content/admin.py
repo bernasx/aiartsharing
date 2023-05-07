@@ -8,7 +8,7 @@ class PostAdmin(admin.ModelAdmin):
     form = ImagePostChangeForm
     model = ImagePost
    
-    readonly_fields=('user','publish_date')
+    readonly_fields=('user','publish_date','model','hypernetwork','positive_prompt','negative_prompt','notes','generation_details','image_url','onlineService')
     list_display = ('user', 'publish_date')
 
 admin.site.register(ImagePost, PostAdmin)

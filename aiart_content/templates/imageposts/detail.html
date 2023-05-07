@@ -2,6 +2,16 @@
 {%load static%}
 
 {% block content %}
+
+{%include 'report.html' %}
+
+<div id="notification" class="notification is-hidden is-success">
+    <button class="delete" _="on click toggle .is-hidden on #notification" hx-post="clear-report-notification" hx-swap="none"></button>
+    Report sent successfully!
+</div>
+
+
+
 <link rel="stylesheet" href="{% static 'css/detail.css' %}" type="text/css">
 
 <div class="columns is-centered">

@@ -1,5 +1,6 @@
 from django.views.generic import DetailView, ListView
 from .forms import ImagePostCreationForm, SimpleSearchForm, AdvancedLocalSearchForm, AdvancedOnlineServiceSearchForm, CommentCreationForm
+from aiart_main.forms import ImagePostReportForm
 from .models import ImagePost, ImagePostComment
 from django.shortcuts import render, redirect, HttpResponse
 from aiart_auth.models import CustomUser, Followers
@@ -46,6 +47,8 @@ def CreateImagePostView(request):
 class DetailImagePostView(DetailView):
     model = ImagePost
     template_name = 'imageposts/detail.html'
+
+
     def get_object(self):
         return ImagePost.objects.get(uuid=self.kwargs.get('uuid'))
     
@@ -57,7 +60,7 @@ class DetailImagePostView(DetailView):
         context['imagepost_uuid'] = post.uuid
         context['user_liking_uuid'] = self.request.user.uuid
         context['likes'] = post.liked_image_posts.all().count()
-       
+        context['report_form'] = ImagePostReportForm
 
         if self.request.user.liked_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
             # These have to be strings because that's how we get them from the client. Could make them bools but it's just one comparison when rendering the template

@@ -9,7 +9,8 @@ from .models import *
 from aiart_content.models import ImagePost
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.db.models import Sum, Count
+from django.db.models import Count
+from django.shortcuts import render
 # Create your views here.
 
 class Login(LoginView):
@@ -45,6 +46,13 @@ class ProfileView(DetailView):
         context['user_posts'] = user_posts
         context['post_count'] = post_count
         context['total_likes'] = total_likes
+        context['user_being_followed'] = user.uuid
+
+        if(Followers.objects.filter(user_being_followed=user,user_following=self.request.user).exists()):
+            context['following_user'] = True
+        else:
+            context['following_user'] = False
+
         return context
 
     
@@ -75,3 +83,23 @@ class PasswordChange(PasswordChangeView):
         self.request.session.flush()
         logout(self.request)
         return super().form_valid(form)
+    
+
+#HTMX Views
+
+def follow(request):
+    # the one being followed
+    user = CustomUser.objects.get(uuid=request.POST.get('user_followed'))
+
+    if(user == request.user):
+        return
+
+    if(Followers.objects.filter(user_being_followed=user,user_following=request.user).exists()):
+        Followers.objects.get(user_being_followed=user,user_following=request.user).delete()
+        context = {'following_user':False,'user_being_followed':user.uuid}
+        return render(request, 'profile/partials/follow.html', context=context)
+    else:
+        follow = Followers.objects.create(user_being_followed=user,user_following=request.user)
+        follow.save()
+        context = {'following_user':True,'user_being_followed':user.uuid}
+        return render(request, 'profile/partials/follow.html', context=context)

@@ -33,3 +33,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def profilePictureFilename(self):
         return os.path.basename(self.profile_picture.name)
+
+class Followers(models.Model):
+    user_being_followed = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_being_followed')
+    user_following = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_following')

@@ -1,9 +1,8 @@
 from django.views.generic import DetailView, ListView
-from django.contrib.auth.decorators import login_required
 from .forms import ImagePostCreationForm, SimpleSearchForm, AdvancedLocalSearchForm, AdvancedOnlineServiceSearchForm, CommentCreationForm
 from .models import ImagePost, ImagePostComment
 from django.shortcuts import render, redirect, HttpResponse
-from aiart_auth.models import CustomUser
+from aiart_auth.models import CustomUser, Followers
 from django.urls import reverse
 from django.db.models import Q
 
@@ -116,6 +115,16 @@ class ListImagePostsView(ListView):
         context['advanced_local_form'] = advanced_local_form
         context['advanced_online_form'] = advanced_online_form
         return context
+
+class ListImagePostsFollowingFeed(ListView):
+    model = ImagePost
+    template_name = 'imageposts/following_feed.html'
+    paginate_by = 24 
+
+    def get_queryset(self):
+        following_objects = Followers.objects.filter(user_following=self.request.user)
+        users = map(lambda x: x.user_being_followed, following_objects)
+        return ImagePost.objects.filter(user__in=users).order_by('-publish_date')
 
 def searchView(request):
     qdict = request.POST.copy()

@@ -1,0 +1,41 @@
+{%load widget_tweaks%}
+<div id="report-modal" class="modal">
+    <div class="modal-background" _="on click toggle .is-active on #report-modal"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Report this post</p>
+        <button class="delete" aria-label="close" _="on click toggle .is-active on #report-modal"></button>
+      </header>
+    <form method="POST" hx-post="{% url 'main:report' %}" hx-swap="none" autocomplete='off'>
+    {% csrf_token %}
+    <input type="hidden" name="post_uuid" value="{{object.uuid}}">
+      <section class="modal-card-body">
+
+        <div class="field">
+            <label class="label">{{ report_form.report_option.label_tag }}</label>
+            {{ report_form.report_option.errors }}
+            <div class="control">
+                <div class="select">
+                    {% render_field report_form.report_option%}
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">{{ report_form.other_option.label_tag }}</label>
+            {{ report_form.other_option.errors }}
+
+            <div class="control">
+                {% render_field report_form.other_option class="textarea"%}
+            </div>
+        </div>
+
+      </section>
+      <footer class="modal-card-foot">
+        <button type="submit" class="button is-primary" _="on click toggle .is-active on #report-modal then toggle .is-hidden on #notification">Report</button>
+        <button type="button" class="button" _="on click toggle .is-active on #report-modal">Cancel</button>
+      </footer>
+
+    </form>
+    </div>
+</div>

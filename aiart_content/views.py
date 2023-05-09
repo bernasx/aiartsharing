@@ -63,7 +63,7 @@ class DetailImagePostView(DetailView):
         context['report_form'] = ImagePostReportForm
 
         # gets random posts to be recommended, this is super slow and should be changed eventually
-        recommended_posts = ImagePost.objects.all().order_by('?')[:6]
+        recommended_posts = ImagePost.objects.all().exclude(uuid=self.kwargs.get('uuid')).order_by('?')[:6]
         context['recommended_posts'] = recommended_posts
 
 
@@ -123,6 +123,11 @@ class ListImagePostsView(ListView):
         context['simpleform'] = simpleform
         context['advanced_local_form'] = advanced_local_form
         context['advanced_online_form'] = advanced_online_form
+
+        #preserve search parameters, if any
+        get_copy = self.request.GET.copy()
+        parameters = get_copy.pop('page', True) and get_copy.urlencode()
+        context['parameters'] = parameters
         return context
 
 class ListImagePostsFollowingFeed(ListView):
@@ -135,6 +140,16 @@ class ListImagePostsFollowingFeed(ListView):
         users = map(lambda x: x.user_being_followed, following_objects)
         return ImagePost.objects.filter(user__in=users).order_by('-publish_date')
     
+    def get_context_data(self, **kwargs):
+    
+        context = super().get_context_data(**kwargs)
+
+        #preserve search parameters, if any
+        get_copy = self.request.GET.copy()
+        parameters = get_copy.pop('page', True) and get_copy.urlencode()
+        context['parameters'] = parameters
+        return context
+    
 class ListImagePostsFavorites(ListView):
     model = ImagePost
     template_name = 'imageposts/favorites.html'
@@ -143,6 +158,16 @@ class ListImagePostsFavorites(ListView):
     def get_queryset(self):
         user = self.request.user
         return user.favorited_image_posts.order_by('-publish_date')
+    
+    def get_context_data(self, **kwargs):
+    
+        context = super().get_context_data(**kwargs)
+
+        #preserve search parameters, if any
+        get_copy = self.request.GET.copy()
+        parameters = get_copy.pop('page', True) and get_copy.urlencode()
+        context['parameters'] = parameters
+        return context
 
 def searchView(request):
     qdict = request.POST.copy()

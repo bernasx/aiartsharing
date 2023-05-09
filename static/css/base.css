@@ -13,6 +13,11 @@ body, .navbar {
     background-color: #BD473F !important;
 }
 
+.pagination-link.is-current {
+    background-color: #BD473F;
+    border-color: #BD473F;
+}
+
 /* Leave this here until I decide whether or not to override border colors.... 
 /* Text input border color 
 .input:active, .input:focus{

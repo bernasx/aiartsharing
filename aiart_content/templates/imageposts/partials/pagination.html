@@ -1,0 +1,35 @@
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    <ul class="pagination-list">
+        {% if page_obj.has_previous %}
+            {%if page_obj.previous_page_number != 1 %}
+            <li>
+                <a href="?page=1&{{ parameters }}" class="pagination-link" aria-label="Goto page 1">1</a>
+            </li>
+            <li>
+                <span class="pagination-ellipsis">&hellip;</span>
+            </li>
+            {%endif%}
+            <li>
+                <a href="?page={{ page_obj.previous_page_number }}&{{ parameters }}" class="pagination-link" aria-label="Goto page {{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+            </li>
+        {% endif %}      
+      
+      <li>
+        <a class="pagination-link is-current" aria-label="{{ page_obj.number }}" aria-current="page">{{ page_obj.number }}</a>
+      </li>
+
+      {% if page_obj.has_next %}
+            <li>
+                <a href="?page={{ page_obj.next_page_number }}&{{ parameters }}" class="pagination-link" aria-label="Goto page {{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+            </li>
+            {%if page_obj.next_page_number != page_obj.paginator.num_pages %}
+            <li>
+                <span class="pagination-ellipsis">&hellip;</span>
+            </li>
+            <li>
+                <a href="?page={{ page_obj.paginator.num_pages }}&{{ parameters }}" class="pagination-link" aria-label="Goto page {{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+            </li>
+            {%endif%}
+        {% endif %}
+    </ul>
+  </nav>

@@ -15,17 +15,36 @@
                     <div class="block">
                         <p class="post-card-prompt">{{post.positive_prompt}}</p>
                     </div>
-                    <hr class="post-card-divider"/>
+                    <hr class="post-card-divider" />
                     <div class="block">
-                        <time datetime="{{post.publish_date|date:"Y-m-d"}}">{{post.publish_date|date:"M d, Y"}}</time>
-                        <br>
-                        <a class="username-field" href="{% url 'auth:profile' post.user.uuid %}"> @{{post.user.username}} </a>
+                        <div class="level mb-0">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <time datetime="{{post.publish_date|date:" Y-m-d"}}">{{post.publish_date|date:"M d, Y"}}</time>
+                                </div>                                
+                            </div>
+
+                            <div class="level-right">
+                                <div class="level-item mr-1">
+                                    <strong>{{post.likes}}</strong>
+                                </div>
+                                <div class="level-item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -4 24 24" width="24" fill="#BD473F">
+                                            <path
+                                                d="M9.293 1.55l.707.708.707-.707a5 5 0 1 1 7.071 7.071l-7.07 7.071a1 1 0 0 1-1.415 0L2.222 8.622a5 5 0 1 1 7.07-7.071z">
+                                            </path>
+                                        </svg>
+                                </div>                                  
+                            </div>
+                        </div>
+                            <a class="username-field" href="{% url 'auth:profile' post.user.uuid %}">
+                                @{{post.user.username}} </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     {% empty %}
-        <li>No posts yet.</li>
+    <li>No posts yet.</li>
     {% endfor %}
 </ul>

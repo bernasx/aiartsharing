@@ -54,13 +54,18 @@ class ImagePostChangeForm(forms.ModelForm):
 class SimpleSearchForm(forms.Form):
     keyword = forms.CharField(label="Search for anything", max_length=100, required=False)
     search_type = forms.CharField(widget=forms.HiddenInput, initial='simple')
-
+    
+    sort_options = [('recent','Recent'),('popular','Popularity')]
+    sort_by = forms.ChoiceField(label="Sort by", choices=sort_options)
 
 class AdvancedLocalSearchForm(forms.Form):
     prompt = forms.CharField(label="Prompt / Search Term", max_length=100, required=False)
     model = forms.CharField(label="Model", max_length=100, required=False)
     keyword = forms.CharField(label="Keywords", max_length=100, required=False)
     search_type = forms.CharField(widget=forms.HiddenInput, initial='advanced_local')
+
+    sort_options = [('recent','Recent'),('popular','Popularity')]
+    sort_by = forms.ChoiceField(label="Sort by", choices=sort_options)
 
 class AdvancedOnlineServiceSearchForm(forms.Form):
     DALL_E = 'DALL-E'
@@ -73,6 +78,9 @@ class AdvancedOnlineServiceSearchForm(forms.Form):
     service = forms.ChoiceField(label="Service", choices=choices, required=False)
     keyword = forms.CharField(label="Keywords", max_length=100, required=False)
     search_type = forms.CharField(widget=forms.HiddenInput, initial='advanced_online')
+
+    sort_options = [('recent','Recent'),('popular','Popularity')]
+    sort_by = forms.ChoiceField(label="Sort by", choices=sort_options)
 
 # Comment
 

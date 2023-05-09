@@ -23,6 +23,16 @@
 
             </div>
 
+            <div class="field">
+                <label class="label">{{ simpleform.sort_by.label_tag }}</label>
+                {{ simpleform.sort_by.errors }}
+                <div class="control">
+                    <div class="select">
+                        {% render_field simpleform.sort_by class=""%}
+                    </div>
+                </div>
+            </div>
+
             <div class="field is-horizontal">
                 <div class="field-label fit-label">
                     <!-- Left empty for spacing -->
@@ -101,6 +111,16 @@
                 </div>
             </div>
 
+            <div class="field">
+                <label class="label">{{ simpleform.sort_by.label_tag }}</label>
+                {{ simpleform.sort_by.errors }}
+                <div class="control">
+                    <div class="select">
+                        {% render_field simpleform.sort_by class=""%}
+                    </div>
+                </div>
+            </div>
+
             <div class="field is-horizontal">
                 <div class="field-label fit-label">
                     <!-- Left empty for spacing -->
@@ -147,6 +167,16 @@
                 <div class="control">
                     <div class="select">
                         {% render_field advanced_online_form.service class=""%}
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">{{ simpleform.sort_by.label_tag }}</label>
+                {{ simpleform.sort_by.errors }}
+                <div class="control">
+                    <div class="select">
+                        {% render_field simpleform.sort_by class=""%}
                     </div>
                 </div>
             </div>

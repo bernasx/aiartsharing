@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from aiart_auth.models import CustomUser, Followers
 from django.urls import reverse
 from django.db.models import Q
-
+from django.db.models import Count
 # Create your views here.
 
 def CreateImagePostView(request):
@@ -89,30 +89,60 @@ class ListImagePostsView(ListView):
     paginate_by = 24 
 
     def get_queryset(self):
+
         try: 
+
+            # order the posts by whatever
+            ordering = ''
+            order_query = self.request.GET['sort_by']
+
+            if(order_query == 'recent'):
+                ordering = '-publish_date'
+            elif(order_query == 'popular'):
+                ordering = '-likes'
+            else:
+                ordering = '-recent'
+
+            # get each a query from each form or type of search individually    
             if (self.request.GET['search_type'] == 'simple'):
                 keyword = self.request.GET['keyword']
-                return ImagePost.objects.filter(Q(positive_prompt__icontains=keyword) | Q(generation_details__icontains=keyword) | Q(notes__icontains=keyword) | Q(model__icontains=keyword) ).order_by('-publish_date')
+                return ImagePost.objects.filter(
+                    Q(positive_prompt__icontains=keyword) | 
+                    Q(generation_details__icontains=keyword) | 
+                    Q(notes__icontains=keyword) | 
+                    Q(model__icontains=keyword)).annotate(likes=Count('liked_image_posts')).order_by(ordering)
+            
             elif (self.request.GET['search_type'] == 'advanced_local'):
                 prompt = self.request.GET['prompt']
                 model = self.request.GET['model']
                 keyword = self.request.GET['keyword']
-
-                return ImagePost.objects.filter(Q(isOnlineService=False) & Q(positive_prompt__icontains=prompt) & Q(model__icontains=model) & (Q(generation_details__icontains=keyword) |Q(notes=keyword))).order_by('-publish_date')
+                return ImagePost.objects.filter(Q(isOnlineService=False) & 
+                                                Q(positive_prompt__icontains=prompt) & 
+                                                Q(model__icontains=model) & 
+                                                (Q(generation_details__icontains=keyword) |Q(notes=keyword))).annotate(likes=Count('liked_image_posts')).order_by(ordering)
+            
+            
             elif (self.request.GET['search_type'] == 'advanced_online'):
                 prompt = self.request.GET['prompt']
                 service = self.request.GET['service']
                 keyword = self.request.GET['keyword']
-                return ImagePost.objects.filter(Q(isOnlineService=True) & Q(positive_prompt__icontains=prompt) & Q(onlineService__icontains=service) & Q(notes__icontains=keyword)).order_by('-publish_date')
+                return ImagePost.objects.filter(Q(isOnlineService=True) 
+                                                & Q(positive_prompt__icontains=prompt) 
+                                                & Q(onlineService__icontains=service) 
+                                                & Q(notes__icontains=keyword)).annotate(likes=Count('liked_image_posts')).order_by(ordering)
+            
+            
             elif (self.request.GET['search_type'] == 'by_user'):
                 useruuid = self.request.GET['user_searched']
                 user = CustomUser.objects.get(uuid=useruuid)
-                return ImagePost.objects.filter(user=user).order_by('-publish_date')
+                return ImagePost.objects.filter(user=user).annotate(likes=Count('liked_image_posts')).order_by(ordering)
+            
             else:
-                return ImagePost.objects.all().order_by('-publish_date')
+                return ImagePost.objects.all().annotate(likes=Count('liked_image_posts')).order_by(ordering)
+            
         except (KeyError):
        
-            return ImagePost.objects.all().order_by('-publish_date')
+            return ImagePost.objects.all().annotate(likes=Count('liked_image_posts')).order_by('-publish_date')
         
     def get_context_data(self, **kwargs):
     

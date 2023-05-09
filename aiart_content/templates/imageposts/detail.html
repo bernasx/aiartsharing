@@ -82,6 +82,22 @@
     {% endif %}
 </div>
 
+<h1 id="recommendation-header" class="is-size-3 mb-4">Check out more posts like this</h1>
+
+<div class="columns is-multiline is-mobile">
+    {%for post in recommended_posts%}
+        <div class="column is-2-desktop is-4-mobile">
+            <a href="{% url 'content:detail_imagepost' post.uuid %}">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src={{post.image_url}} alt="Image" class="post-card-image">
+                    </figure>
+                </div>
+            </a>
+        </div>
+    {%endfor%}
+</div>
+
 {% include '../comments/create.html' %}
 {% include '../comments/commentlist.html' %}
 

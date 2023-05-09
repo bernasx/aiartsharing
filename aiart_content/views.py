@@ -62,6 +62,12 @@ class DetailImagePostView(DetailView):
         context['likes'] = post.liked_image_posts.all().count()
         context['report_form'] = ImagePostReportForm
 
+        # gets random posts to be recommended, this is super slow and should be changed eventually
+        recommended_posts = ImagePost.objects.all().order_by('?')[:6]
+        context['recommended_posts'] = recommended_posts
+
+
+        #Handling likes and Favorites
         if self.request.user.liked_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
             # These have to be strings because that's how we get them from the client. Could make them bools but it's just one comparison when rendering the template
             # so it's probably fine.

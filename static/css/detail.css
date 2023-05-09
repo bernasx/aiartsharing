@@ -1,4 +1,4 @@
-#detail-header {
+#detail-header,#recommendation-header {
     color: #BD473F;
     font-weight: 600;
 }
@@ -11,3 +11,8 @@ p {
     word-break: break-all;
 }
 
+.post-card-image {
+
+    object-fit: cover;
+
+}

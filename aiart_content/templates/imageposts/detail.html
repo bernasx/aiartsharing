@@ -30,8 +30,8 @@
     </div>
     
     <div class="block" id="like-favorite-button-block">
-        {%if object.user != user%}
-        {% include './partials/detail_like_favorite_buttons.html' %}
+        {%if object.user != user and user.is_authenticated %}
+            {% include './partials/detail_like_favorite_buttons.html' %}
         {%endif%}
     </div>
 
@@ -98,7 +98,12 @@
     {%endfor%}
 </div>
 
-{% include '../comments/create.html' %}
+{%if user.is_authenticated %}
+    {% include '../comments/create.html' %}
+{%else%}
+    <p>Please login to post a comment.</p>
+{%endif%}
+
 {% include '../comments/commentlist.html' %}
 
 {% endblock content %}

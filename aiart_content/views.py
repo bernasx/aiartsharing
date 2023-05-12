@@ -58,7 +58,8 @@ class DetailImagePostView(DetailView):
         post = ImagePost.objects.get(uuid=self.kwargs.get('uuid'))
         # We have to separate these from the rest of the page so HTMX can rewrite them and preserve stuff in the template
         context['imagepost_uuid'] = post.uuid
-        context['user_liking_uuid'] = self.request.user.uuid
+        if self.request.user.is_authenticated:
+            context['user_liking_uuid'] = self.request.user.uuid
         context['likes'] = post.liked_image_posts.all().count()
         context['report_form'] = ImagePostReportForm
 
@@ -66,16 +67,16 @@ class DetailImagePostView(DetailView):
         recommended_posts = ImagePost.objects.all().exclude(uuid=self.kwargs.get('uuid')).order_by('?')[:6]
         context['recommended_posts'] = recommended_posts
 
+        if self.request.user.is_authenticated:
+            #Handling likes and Favorites
+            if self.request.user.liked_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
+                # These have to be strings because that's how we get them from the client. Could make them bools but it's just one comparison when rendering the template
+                # so it's probably fine.
+                context['user_liked_post'] = "True" 
 
-        #Handling likes and Favorites
-        if self.request.user.liked_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
-            # These have to be strings because that's how we get them from the client. Could make them bools but it's just one comparison when rendering the template
-            # so it's probably fine.
-            context['user_liked_post'] = "True" 
 
-
-        if self.request.user.favorited_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
-            context['user_favorited_post'] = "True"
+            if self.request.user.favorited_image_posts.filter(uuid=ImagePost.objects.get(uuid=self.kwargs.get('uuid')).uuid).exists():
+                context['user_favorited_post'] = "True"
 
         #comment section
         context['comments'] = ImagePostComment.objects.filter(imagepost=post).order_by('-publish_date')
@@ -168,7 +169,7 @@ class ListImagePostsFollowingFeed(ListView):
     def get_queryset(self):
         following_objects = Followers.objects.filter(user_following=self.request.user)
         users = map(lambda x: x.user_being_followed, following_objects)
-        return ImagePost.objects.filter(user__in=users).order_by('-publish_date')
+        return ImagePost.objects.filter(user__in=users).annotate(likes=Count('liked_image_posts')).order_by('-publish_date')
     
     def get_context_data(self, **kwargs):
     
@@ -187,7 +188,7 @@ class ListImagePostsFavorites(ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return user.favorited_image_posts.order_by('-publish_date')
+        return user.favorited_image_posts.annotate(likes=Count('liked_image_posts')).order_by('-publish_date')
     
     def get_context_data(self, **kwargs):
     

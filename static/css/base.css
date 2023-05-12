@@ -1,5 +1,5 @@
-body, .navbar {
-    background-color: #FAFAFA;
+body, .navbar, .footer {
+    background-color: #e4e4e4;
 }
 
 .fit-screen {
@@ -16,6 +16,11 @@ body, .navbar {
 .pagination-link.is-current {
     background-color: #BD473F;
     border-color: #BD473F;
+}
+
+a.navbar-item:hover, .navbar-link:hover, .navbar-item.has-dropdown:hover .navbar-link   {
+    background-color: #ebebeb;
+    color: #BD473F;
 }
 
 /* Leave this here until I decide whether or not to override border colors.... 
@@ -35,6 +40,16 @@ body, .navbar {
 /* Arrow in a select element */
 .select::after {
     border-color:#BD473F !important;
+}
+
+a.navbar-link::after {
+    border-color:#BD473F !important;
+}
+
+/* change borders to be thicker */
+
+.input, .button, .select select, .textarea {
+    border-color: #949494;
 }
 
 

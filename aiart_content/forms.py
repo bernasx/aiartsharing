@@ -1,7 +1,9 @@
 from django import forms
 from .models import ImagePost, ImagePostComment
 
-class ImagePostCreationForm(forms.ModelForm):
+class ImagePostLocalCreationForm(forms.ModelForm):
+
+    post_type = forms.CharField(widget=forms.HiddenInput, initial='local')
 
     class Meta:
         model = ImagePost
@@ -16,13 +18,31 @@ class ImagePostCreationForm(forms.ModelForm):
             "negative_prompt":"Negative Prompt",
             "notes":"Notes",
             "generation_details": "Generation Details",
-            "isOnlineService": "Generated in an Online Service?",
+        }
+
+class ImagePostOnlineCreationForm(forms.ModelForm):
+
+    post_type = forms.CharField(widget=forms.HiddenInput, initial='online')
+
+    class Meta:
+        model = ImagePost
+        fields = ("image_url","model",
+                  "hypernetwork","positive_prompt","negative_prompt",
+                  "notes","generation_details","isOnlineService","onlineService")
+        labels = {
+            "image_url":'Image URL',
+            "model":"Model",
+            "hypernetwork": "Hypernetwork",
+            "positive_promopt":"Positive Prompt",
+            "negative_prompt":"Negative Prompt",
+            "notes":"Notes",
+            "generation_details": "Generation Details",
             "onlineService": "Online Service"
         }
 
 
     def clean(self):
-        cd = super(ImagePostCreationForm, self).clean()
+        cd = super(ImagePostOnlineCreationForm, self).clean()
 
         onlineService = cd.get("onlineService")
         if onlineService == "":
@@ -72,7 +92,7 @@ class AdvancedOnlineServiceSearchForm(forms.Form):
     NOVEL_AI = 'Novel AI'
     MIDJOURNEY = 'Midjourney'
 
-    choices = [('',''),(DALL_E,'DALL-E 2'),(NOVEL_AI,'Novel AI'),(MIDJOURNEY,'Midjourney')]
+    choices = [('','---------'),(DALL_E,'DALL-E 2'),(NOVEL_AI,'Novel AI'),(MIDJOURNEY,'Midjourney')]
 
     prompt = forms.CharField(label="Prompt / Search Term", max_length=100, required=False)
     service = forms.ChoiceField(label="Service", choices=choices, required=False)

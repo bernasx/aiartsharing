@@ -46,6 +46,13 @@
     <h3 class="is-size-5 has-text-weight-semibold">Model: </h3>
     <p>{{object.model}} </p>
     </div>
+
+    {%if object.isOnlineService%}
+        <div class="box">
+        <h3 class="is-size-5 has-text-weight-semibold">Service: </h3>
+        <p >{{object.onlineService}} </p>
+        </div>
+    {%endif%}
     
     
     {%if object.hypernetwork%}

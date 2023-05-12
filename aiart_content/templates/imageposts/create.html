@@ -3,62 +3,71 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/upload.css' %}" type="text/css">
-    <form method="POST" action="{% url 'content:create_imagepost' %}" autocomplete='off'>
+
+    {%if onlineServiceReload %}
+        <input type="hidden" _="on load set #hide-checkbox.checked to true then toggle .is-hidden on .is-hidden-target"> 
+    {%endif%}
+
+    <div class="block box isOnlineServiceBox">
+        <div class="field is-horizontal">
+            <label class="label mr-4">Was your image generated in an online service?</label>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input id="hide-checkbox" type="checkbox" class=""
+                            _="on click toggle .is-hidden on .is-hidden-target">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <em>
+            <p> Select this if your image was generated in an online service like Midjourney, DALL-E 2 etc...</p>
+        </em>
+    </div>
+
+
+    <div class="columns is-centered">
+        <div class="column is-one-third">
+                <div class="box" id="image-preview-container">
+                    <figure class="image is-4by3">
+                        <img src="" alt="Image" id="image-preview">
+                    </figure>
+                  </div>
+        </div>
+    </div>
+
+
+    <form method="POST" action="{% url 'content:create_imagepost' %}" autocomplete="off" class="is-hidden-target is-hidden">
         {% csrf_token %}
 
         {% comment%}
         Errors tied to form as a whole
         {% endcomment%}
-        {%for error in form.non_field_errors%}
+        {%for error in online_form.non_field_errors%}
             {{error}}
         {%endfor%}
 
-        <div class="box isOnlineServiceBox">
-            <div class="field is-horizontal">
-                <label class="label mr-4">{{ form.isOnlineService.label_tag }}</label>
-                <div class="field-body">
-                    <div class="field">
-                        {{ form.isOnlineService.errors }}
-                        <div class="control">
-                            {% render_field form.isOnlineService class="" _="on click toggle .is-hidden on .is-hidden-target"  %}
-                        </div>
-                        
-                    </div>
-                </div>       
-            </div>
-            <em><p> Select this if your image was generated in an online service like Midjourney, DALL-E 2 etc...</p></em>
-        </div>
+        {% render_field online_form.post_type %}
 
         <div class="field">
-            <div class="columns is-centered">
-                <div class="column is-one-third">
-                        <div class="box" id="image-preview-container">
-                            <figure class="image is-4by3">
-                                <img src="" alt="Image" id="image-preview">
-                            </figure>
-                          </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="field">
-            <label class="label is-hidden is-hidden-target">{{ form.onlineService.label_tag }}</label>
-            {{ form.onlineService.errors }}
+            <label class="label">{{ online_form.onlineService.label_tag }}</label>
+            {{ online_form.onlineService.errors }}
             <div class="control">
-                <div class="select is-hidden is-hidden-target">
-                    {% render_field form.onlineService class=""%}
+                <div class="select">
+                    {% render_field online_form.onlineService class=""%}
                 </div>
             </div>
         </div>
 
         <div class="field">
 
-            <label class="label">{{ form.image_url.label_tag }}</label>
+            <label class="label">{{ online_form.image_url.label_tag }}</label>
 
-            {{ form.image_url.errors }}
+            {{ online_form.image_url.errors }}
     
             <div class="control">
-                {% render_field form.image_url _="on change if my value is empty then hide #image-preview-container else show #image-preview-container with display:block then set #image-preview @src to my value end" class="input"%}
+                {% render_field online_form.image_url _="on change if my value is empty then hide #image-preview-container else show #image-preview-container with display:block then set #image-preview @src to my value end" class="input"%}
             </div>
             
         </div>
@@ -68,18 +77,112 @@
             <div class="field-body">
 
                 <div class="field">
-                    <label class="label is-hidden-target">{{ form.model.label_tag }}</label>
-                    {{ form.model.errors }}
+                    <label class="label">{{ online_form.model.label_tag }}</label>
+                    {{ online_form.model.errors }}
                     <div class="control">
-                        {% render_field form.model class="input is-hidden-target"%}
+                        {% render_field online_form.model class="input"%}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label label">{{ online_form.positive_prompt.label_tag }}</label>
+            {{ online_form.positive_prompt.errors }}
+            <div class="control">
+                {% render_field online_form.positive_prompt class="textarea"%}
+            </div>
+        </div>
+
+        <div class="field">
+
+
+            <label class="label">{{ online_form.negative_prompt.label_tag }}</label>
+            {{ online_form.negative_prompt.errors }}
+
+            <div class="control">
+                {% render_field online_form.negative_prompt class="textarea"%}
+            </div>
+        </div>
+
+        <div class="field">
+
+            <label class="label">{{ online_form.notes.label_tag }}</label>
+            {{ online_form.notes.errors }}
+
+            <div class="control">
+                {% render_field online_form.notes class="textarea"%}
+            </div>
+
+        </div>
+
+        <div class="field">
+            <label class="label">{{ online_form.generation_details.label_tag }}</label>
+            {{ online_form.generation_details.errors }}
+    
+            <div class="control">
+                {% render_field online_form.generation_details class="input"%}
+            </div>
+
+        </div>
+
+        <div class="field is-horizontal">
+            <div class="field-label fit-label">
+                <!-- Left empty for spacing -->
+            </div>
+            <div class="field-body">
+                <div class="field has-text-right">
+                    <div class="control">
+                        <button type="submit" class="button">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form method="POST" action="{% url 'content:create_imagepost' %}" autocomplete="off" class="is-hidden-target">
+        {% csrf_token %}
+
+        {% comment%}
+        Errors tied to form as a whole
+        {% endcomment%}
+        {%for error in local_form.non_field_errors%}
+            {{error}}
+        {%endfor%}
+
+        {% render_field local_form.post_type %}
+
+
+        <div class="field">
+
+            <label class="label">{{ local_form.image_url.label_tag }}</label>
+
+            {{ local_form.image_url.errors }}
+    
+            <div class="control">
+                {% render_field local_form.image_url _="on change if my value is empty then hide #image-preview-container else show #image-preview-container with display:block then set #image-preview @src to my value end" class="input"%}
+            </div>
+            
+        </div>
+
+
+        <div class="field is-horizontal">
+            <div class="field-body">
+
+                <div class="field">
+                    <label class="label">{{ local_form.model.label_tag }}</label>
+                    {{ local_form.model.errors }}
+                    <div class="control">
+                        {% render_field local_form.model class="input"%}
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label is-hidden-target">{{ form.hypernetwork.label_tag }}</label>
-                    {{ form.hypernetwork.errors }}
+                    <label class="label">{{ local_form.hypernetwork.label_tag }}</label>
+                    {{ local_form.hypernetwork.errors }}
                     <div class="control">
-                        {% render_field form.hypernetwork class="input is-hidden-target"%}  
+                        {% render_field local_form.hypernetwork class="input"%}  
                     </div>
                 </div>
 
@@ -87,41 +190,41 @@
         </div>
 
         <div class="field">
-            <label class="label label">{{ form.positive_prompt.label_tag }}</label>
-            {{ form.positive_prompt.errors }}
+            <label class="label label">{{ local_form.positive_prompt.label_tag }}</label>
+            {{ local_form.positive_prompt.errors }}
             <div class="control">
-                {% render_field form.positive_prompt class="textarea"%}
+                {% render_field local_form.positive_prompt class="textarea"%}
             </div>
         </div>
 
         <div class="field">
 
 
-            <label class="label is-hidden-target">{{ form.negative_prompt.label_tag }}</label>
-            {{ form.negative_prompt.errors }}
+            <label class="label is-hidden-target">{{ local_form.negative_prompt.label_tag }}</label>
+            {{ local_form.negative_prompt.errors }}
 
             <div class="control">
-                {% render_field form.negative_prompt class="is-hidden-target textarea"%}
+                {% render_field local_form.negative_prompt class="textarea"%}
             </div>
         </div>
 
         <div class="field">
 
-            <label class="label">{{ form.notes.label_tag }}</label>
-            {{ form.notes.errors }}
+            <label class="label">{{ local_form.notes.label_tag }}</label>
+            {{ local_form.notes.errors }}
 
             <div class="control">
-                {% render_field form.notes class="textarea"%}
+                {% render_field local_form.notes class="textarea"%}
             </div>
 
         </div>
 
         <div class="field">
-            <label class="label">{{ form.generation_details.label_tag }}</label>
-            {{ form.generation_details.errors }}
+            <label class="label">{{ local_form.generation_details.label_tag }}</label>
+            {{ local_form.generation_details.errors }}
     
             <div class="control">
-                {% render_field form.generation_details class="input"%}
+                {% render_field local_form.generation_details class="input"%}
             </div>
 
         </div>

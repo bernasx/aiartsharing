@@ -1,5 +1,5 @@
 from django.views.generic import DetailView, ListView
-from .forms import ImagePostCreationForm, SimpleSearchForm, AdvancedLocalSearchForm, AdvancedOnlineServiceSearchForm, CommentCreationForm
+from .forms import ImagePostLocalCreationForm, ImagePostOnlineCreationForm, SimpleSearchForm, AdvancedLocalSearchForm, AdvancedOnlineServiceSearchForm, CommentCreationForm
 from aiart_main.forms import ImagePostReportForm
 from .models import ImagePost, ImagePostComment
 from django.shortcuts import render, redirect, HttpResponse
@@ -11,37 +11,59 @@ from django.db.models import Count
 
 def CreateImagePostView(request):
     if(request.method == 'GET'):
-        form = ImagePostCreationForm
-        context = {'form':form}
+        local_form = ImagePostLocalCreationForm
+        online_form = ImagePostOnlineCreationForm
+        context = {'local_form':local_form, 'online_form':online_form}
         return render(request,'imageposts/create.html', context)
     if(request.method =='POST'):
-        form = ImagePostCreationForm(request.POST, request.FILES)
-        context = {'form':form}
-        if form.is_valid():
-            imagepost = ImagePost(
-                user = request.user,
-                image_url = request.POST['image_url'],
-                positive_prompt = request.POST['positive_prompt'],
-                notes = request.POST['notes'],
-                generation_details = request.POST['generation_details']
-            )
-            checks = request.POST.getlist('isOnlineService')
-            if('on' in checks):
-                # creating an online service image
-                imagepost.onlineService = request.POST['onlineService']
-                imagepost.isOnlineService = True
-                imagepost.model = imagepost.onlineService
-
+        context = {}
+        if(request.POST['post_type'] == 'local'):
+            local_form = ImagePostLocalCreationForm(request.POST, request.FILES)
+            online_form = ImagePostOnlineCreationForm
+            context = {'local_form':local_form, 'online_form':online_form}
+            if local_form.is_valid():
+                imagepost = ImagePost(
+                    user = request.user,
+                    image_url = request.POST['image_url'],
+                    positive_prompt = request.POST['positive_prompt'],
+                    notes = request.POST['notes'],
+                    generation_details = request.POST['generation_details'],
+                    model = request.POST['model'],
+                    hypernetwork = request.POST['hypernetwork'],
+                    negative_prompt = request.POST['negative_prompt'],
+                    isOnlineService = False,
+                )
+                imagepost.save()
+                return redirect('content:detail_imagepost',uuid=imagepost.uuid)
             else:
-                #creating a normal stable diffusion image post
-                imagepost.model = request.POST['model']
-                imagepost.hypernetwork = request.POST['hypernetwork']
-                imagepost.negative_prompt = request.POST['negative_prompt']
+                context['onlineServiceReload'] = False
+                return render(request,'imageposts/create.html', context)
+        else: 
+            local_form = ImagePostLocalCreationForm
+            online_form = ImagePostOnlineCreationForm(request.POST, request.FILES)
+            context = {'local_form':local_form, 'online_form':online_form}
+            if online_form.is_valid():
+                imagepost = ImagePost (
+                    user = request.user,
+                    image_url = request.POST['image_url'],
+                    positive_prompt = request.POST['positive_prompt'],
+                    notes = request.POST['notes'],
+                    generation_details = request.POST['generation_details'],
+                    negative_prompt = request.POST['negative_prompt'],
+                    onlineService = request.POST['onlineService'],
+                    isOnlineService = True,
+                )
 
-            imagepost.save()
-            return redirect('content:detail_imagepost',uuid=imagepost.uuid)
-        else:
-            return render(request,'imageposts/create.html', context)
+                if request.POST['model'] != '':
+                    imagepost.model = request.POST['model']
+                else:
+                    imagepost.model = imagepost.onlineService
+
+                imagepost.save()
+                return redirect('content:detail_imagepost',uuid=imagepost.uuid)
+            else:
+                context['onlineServiceReload'] = True
+                return render(request,'imageposts/create.html', context)
 
 
 class DetailImagePostView(DetailView):

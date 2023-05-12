@@ -1,10 +1,10 @@
 from django.contrib import admin
 from .models import ImagePost
-from .forms import ImagePostCreationForm, ImagePostChangeForm
+from .forms import ImagePostChangeForm
 # Register your models here.
 
 class PostAdmin(admin.ModelAdmin):
-    add_form = ImagePostCreationForm
+    add_form = ImagePostChangeForm
     form = ImagePostChangeForm
     model = ImagePost
    

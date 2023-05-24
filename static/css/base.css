@@ -18,6 +18,10 @@ body, .navbar, .footer {
     border-color: #BD473F;
 }
 
+.pagination-link {
+    background-color: whitesmoke;
+}
+
 a.navbar-item:hover, .navbar-link:hover, .navbar-item.has-dropdown:hover .navbar-link   {
     background-color: #ebebeb;
     color: #BD473F;

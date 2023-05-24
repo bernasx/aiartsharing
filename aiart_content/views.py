@@ -72,7 +72,10 @@ class DetailImagePostView(DetailView):
 
 
     def get_object(self):
-        return ImagePost.objects.get(uuid=self.kwargs.get('uuid'))
+        post = ImagePost.objects.get(uuid=self.kwargs.get('uuid'))
+        post.views += 1
+        post.save()
+        return post
     
     def get_context_data(self, **kwargs):
          # Call the base implementation first to get a context
@@ -123,6 +126,8 @@ class ListImagePostsView(ListView):
                 ordering = '-publish_date'
             elif(order_query == 'popular'):
                 ordering = '-likes'
+            elif(order_query == 'views'):
+                ordering = '-views'
             else:
                 ordering = '-recent'
 

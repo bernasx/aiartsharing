@@ -7,6 +7,7 @@ class Post(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     publish_date = models.DateTimeField(default=timezone.now, editable=False)
+    views = models.IntegerField(default=0)
 
 class ImagePost(Post):
     # Model Constants

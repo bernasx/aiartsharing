@@ -75,7 +75,7 @@ class SimpleSearchForm(forms.Form):
     keyword = forms.CharField(label="Search for anything", max_length=100, required=False)
     search_type = forms.CharField(widget=forms.HiddenInput, initial='simple')
     
-    sort_options = [('recent','Recent'),('popular','Popularity')]
+    sort_options = [('recent','Recent'),('popular','Popularity'),('views','Views')]
     sort_by = forms.ChoiceField(label="Sort by", choices=sort_options)
 
 class AdvancedLocalSearchForm(forms.Form):
@@ -84,7 +84,7 @@ class AdvancedLocalSearchForm(forms.Form):
     keyword = forms.CharField(label="Keywords", max_length=100, required=False)
     search_type = forms.CharField(widget=forms.HiddenInput, initial='advanced_local')
 
-    sort_options = [('recent','Recent'),('popular','Popularity')]
+    sort_options = [('recent','Recent'),('popular','Popularity'),('views','Views')]
     sort_by = forms.ChoiceField(label="Sort by", choices=sort_options)
 
 class AdvancedOnlineServiceSearchForm(forms.Form):
@@ -99,7 +99,7 @@ class AdvancedOnlineServiceSearchForm(forms.Form):
     keyword = forms.CharField(label="Keywords", max_length=100, required=False)
     search_type = forms.CharField(widget=forms.HiddenInput, initial='advanced_online')
 
-    sort_options = [('recent','Recent'),('popular','Popularity')]
+    sort_options = [('recent','Recent'),('popular','Popularity'),('views','Views')]
     sort_by = forms.ChoiceField(label="Sort by", choices=sort_options)
 
 # Comment

@@ -133,6 +133,7 @@ class ListImagePostsView(ListView):
 
             # get each a query from each form or type of search individually    
             if (self.request.GET['search_type'] == 'simple'):
+                
                 keyword = self.request.GET['keyword']
                 return ImagePost.objects.filter(
                     Q(positive_prompt__icontains=keyword) | 
@@ -151,6 +152,7 @@ class ListImagePostsView(ListView):
             
             
             elif (self.request.GET['search_type'] == 'advanced_online'):
+                
                 prompt = self.request.GET['prompt']
                 service = self.request.GET['service']
                 keyword = self.request.GET['keyword']
@@ -161,15 +163,17 @@ class ListImagePostsView(ListView):
             
             
             elif (self.request.GET['search_type'] == 'by_user'):
+                
                 useruuid = self.request.GET['user_searched']
                 user = CustomUser.objects.get(uuid=useruuid)
                 return ImagePost.objects.filter(user=user).annotate(likes=Count('liked_image_posts')).order_by(ordering)
             
             else:
+                
                 return ImagePost.objects.all().annotate(likes=Count('liked_image_posts')).order_by(ordering)
             
         except (KeyError):
-       
+        
             return ImagePost.objects.all().annotate(likes=Count('liked_image_posts')).order_by('-publish_date')
         
     def get_context_data(self, **kwargs):

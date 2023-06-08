@@ -89,6 +89,7 @@
             {%csrf_token%}
             <input type="hidden" name="search_type" value="by_user" id="id_search_type">
             <input type="hidden" name="user_searched" value="{{customuser.uuid}}" id="id_search_type">
+            <input type="hidden" name="sort_by" value="recent" id="id_sortby">
             <button type="submit" class="button">See all posts by&nbsp;<span>@{{customuser.username}}</span> </button>       
         </form>
 
